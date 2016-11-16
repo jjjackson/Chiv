@@ -1,0 +1,435 @@
+.image {
+    position:relative;
+}
+.image img {
+    width:100%;
+    vertical-align:top;
+}
+.image:after, .image:before {
+    position:absolute;
+    opacity:0;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+}
+.image:after {
+    content:'\A';
+    width: 10%;
+    height: 10%;
+    top: 45%;
+    left: 45%;
+    box-shadow: 0 0 200px 70px black;
+    background: rgba(0,0,0,0.6);
+    z-index: -2;
+}
+.image:before {
+    content: attr(data-content);
+    width:150%;
+    color:#AAA;
+    z-index:1;
+    bottom:0;
+	left:-25%;
+    padding:4px 10px;
+    text-align:center;
+	font-size:50px;
+    box-sizing:border-box;
+    -moz-box-sizing:border-box;
+}
+.image:hover:after, .image:hover:before {
+    opacity:1;
+}
+
+.mainLogo{
+	position:absolute;
+	left:250px;
+	top:250px;
+	height:150px;
+	width:150px;
+	font-family: Impact, Charcoal, sans-serif;
+}
+.mainMenuIcon{
+	position:absolute;
+	height:150px;
+	width:150px;
+	font-family: Impact, Charcoal, sans-serif;
+}
+.blacksmith{
+	left:400px;
+	top:150px;
+}
+#blacksmith{
+	margin-top: 15px;
+}
+.archery{
+	left:100px;
+	top:150px;
+}
+#archery_range{
+	margin-top: 20px;
+}
+.stable{
+	left:100px;
+	top:350px;
+}
+#stable{
+	margin-top: 15px;
+}
+.church{
+	left:400px;
+	top:350px;
+}
+#church{
+	margin: -20px 0 0 10px;
+}
+.builder{
+	left:250px;
+	top:50px;
+}
+.barracks{
+	
+	left:250px;
+	top:450px;
+}
+#wallT{
+	position:absolute;
+	left:0;
+	top:0;
+	height:680px;
+	width:100%;
+	z-index:-2;
+}
+#wallB{
+	position:absolute;
+	left:0;
+	top:0;
+	height:620px;
+	width:100%;
+	z-index:-1;
+}
+.soon:before{
+    content:'\A';
+    box-shadow: inset 0 0 200px 70px black;
+    z-index: 99;
+	opacity:1;
+}
+
+.soon    {  background:rgba(0,0,0,.75);
+               text-align:center;
+               opacity:0.2;
+               -webkit-transition: opacity .25s ease;
+-moz-transition: opacity .25s ease;
+border-radius:50%;
+}
+
+.soon:hover {
+               opacity:0.9;}
+
+#dayCounter{
+	color:white;
+	font-size:20px;
+	font-family:"Arial Black", Gadget, sans-serif;
+}
+.timeControllButton{
+	width:0px;
+	height:0px;
+	border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 10px solid blue;
+	display:inline-block;
+}
+.timeControllButton:hover{
+	border-left: 10px solid lightblue;
+}
+.resourceBar{
+	position:absolute;
+	bottom:0px;
+	left:0px;
+	width:100%;
+	margin:-3px;
+	border:3px solid darkgreen;
+	height:34px;
+	color:white;
+	background-color:darkgreen;
+	font-family:"Arial Black", Gadget, sans-serif;
+	font-size:25px;
+	text-align:center;
+	
+}
+.resourceBar img{
+	width:32px;
+	height:32px;
+	margin:0 3px 0 5px;
+}
+.resourceBar span{
+	vertical-align:top;
+}
+.missionsBoard{
+	position:absolute;
+	right:0px;
+	top:270px;
+}
+.THButton{
+	width:30px;
+	height:30px;
+	font-size:50px;
+	line-height: 32px;
+	color:white;
+	background-color:darkred;
+	border-radius:50%;
+	padding:4px;
+	text-align:center;
+	font-family: Impact, Charcoal, sans-serif;
+	display:inline-block;
+}
+.workerControls{
+	text-align:center;
+	color:white;
+	background-color:darkgreen;
+	font-family:"Arial Black", Gadget, sans-serif;
+	font-size:20px;	
+	border-radius:15px;
+}
+
+.workerControls span{
+	vertical-align:top;
+	line-height: 50px;
+}
+.workerControls img{
+	height:45px;
+	width:45px;
+}
+
+.buildUpgrade{
+	text-align:center;
+	color:white;
+	display:inline-block;
+	width:350px;
+	background-color:darkgreen;
+	border-radius:15px;
+	font-family:"Arial Black", Gadget, sans-serif;
+	
+}
+.buildUpgrade img{
+	height:24px;
+	width:24px;
+	margin-bottom: -5px;
+}
+.buildUpgrade td{
+	line-height:15px;
+}
+.StoryMissions{
+	width:250px;
+	margin:10px;
+	padding:10px;
+	background-color: darkgreen;
+	border-radius:15px;
+	float:left;
+	font-family:"Arial Black", Gadget, sans-serif;
+	color:white;
+}
+.SideMissions{
+	width:250px;
+	margin:10px;
+	padding:10px;
+	background-color: darkgreen;
+	border-radius:15px;
+	float:right;
+	font-family:"Arial Black", Gadget, sans-serif;
+	color:white;
+	vertical-align:top;
+}
+.missionFinished{
+	text-decoration: line-through;
+	color:grey;
+}
+.missionNotReady{
+	color:grey;
+}
+.missionDetails{
+	font-size:15px;
+}
+
+.missionButton{
+	width:100px;
+	display:inline-block;
+	padding:10px;
+	background-color:darkred;
+	color:white;
+	border-radius:15px;
+	text-align:center;
+	font-size:13px;
+}
+.fps{
+	position:fixed;
+	top:10px;
+	left:10px;
+	color:white;
+	z-index:99;
+}
+.endTurnButton{
+	position:fixed;
+	bottom:20px;
+	right:20px;
+	padding:10px;
+	background-color:darkred;
+	border-radius:15px;
+}
+
+.resultsBox{
+	width:90%;
+	margin:5%;
+	background-color:darkgreen;
+	border-radius:15px;
+	text-align:center;
+	color:white;
+	padding-bottom:40px;
+}
+.resultsBox h3{
+	font-size:26px;
+	margin:10px;
+}
+.acceptResults{
+	color:white;
+	background:darkred;
+	border-radius:15px;
+	padding:20px;
+	margin:30px;
+}
+.solTableDiv{
+	max-height:480px;
+	overflow:auto;
+	width:67%;
+	float:left;
+}
+.soilderTable{
+	width:100%;
+	background-color:darkgreen;
+	border-radius:15px;
+	text-align:center;
+	color:white;
+	padding-bottom:40px;
+}
+.armoryTablediv{
+	width:32%;
+	float:right;
+	max-height:300px;
+	overflow:auto;
+}
+.popup td{
+	font-size:14px;
+}
+.objAssign{
+	position:fixed;
+	opacity:0;
+	z-index:100;
+}
+.retiresol{
+	color:white;
+	background-color:darkred;
+	padding:2px;
+	border-radius:50%;
+	font-size:30px;
+}
+.fs::-webkit-scrollbar {
+    width: 0.5em;
+}
+ 
+.fs::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+ 
+.fs::-webkit-scrollbar-thumb {
+  background-color: black;
+  outline: 1px solid darkgreen;
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  transition: opacity 300ms;
+  visibility: hidden;
+  opacity: 0;
+  z-index:3;
+}
+
+.overlay:target {
+  visibility: visible;
+  opacity: 1;
+}
+
+.popup {
+  margin: 70px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 5px;
+  width: 600px;
+  height:600px;
+  position: relative;
+  background-color:ForestGreen;
+  border:7px solid darkgreen;
+  border-radius: 15px;
+  box-shadow: 0 0 10px black;
+  z-index:4;
+}
+
+.popup h2 {
+  margin-top: 0;
+  color: #333;
+  font-family: Tahoma, Arial, sans-serif;
+  text-align:center;
+  font-size: 50px;
+}
+
+.popup .close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 50px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #F77;
+}
+
+.popup .close:hover {
+  color: #06D85F;
+}
+
+.popup .content {
+}
+
+@media screen and (max-width: 700px) {
+  .box {
+    width: 70%;
+  }
+  .popup {
+    width: 70%;
+  }
+}
+
+.hidden {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 0.3s, opacity 0.3s linear;
+}
+.visible {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 2s linear;
+  z-index:9;
+}
+.noticeLog{
+	text-align:center;
+	width:100%;
+	margin: 5% auto;
+}
+.noticeBox{
+	position:fixed;
+	z-index:99;
+	bottom:10px;
+	font-size:18px;
+	color:white;
+	left:50%;
+	font-family: Tahoma, Arial, sans-serif;
+}

@@ -1,0 +1,62 @@
+Exporter version: 5.0.7, Blender version: 2.78 (sub 0)
+========= Conversion from Blender to Babylon.js =========
+	Scene settings used:
+		selected layers only:  false
+		flat shading entire scene:  false
+		inline textures:  false
+		texture directory:  C:\Users\abru4\Downloads\bbtest\models\
+	Python World class constructor completed
+	WARNING: The following armature not visible in scene thus ignored: Armature
+	processing begun of mesh:  Plane.001
+		animation processing begun
+			processing action ArmatureAction.001:  in[0 - 120], out[0 - 120]
+			processing action CameraAction.001:  in[112 - 112], out[130 - 242]
+			processing action CubeAction.001:  in[112 - 112], out[250 - 362]
+			processing action Plane.001Action:  in[1 - 120], out[370 - 490]
+			processing action SpotAction:  in[112 - 112], out[500 - 612]
+			processing action SpotAction.001:  in[112 - 112], out[620 - 732]
+		processing begun of Standard material:  Material
+		num positions      :  4
+		num normals        :  4
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  6
+	processing begun of mesh:  Cube
+		animation processing begun
+			processing action ArmatureAction.001:  in[0 - 120], out[0 - 120]
+			processing action CameraAction.001:  in[112 - 112], out[130 - 242]
+			processing action CubeAction.001:  in[112 - 112], out[250 - 362]
+			processing action Plane.001Action:  in[1 - 120], out[370 - 490]
+			processing action SpotAction:  in[112 - 112], out[500 - 612]
+			processing action SpotAction.001:  in[112 - 112], out[620 - 732]
+		processing begun of Standard material:  Material.004
+			Diffuse texture found "Texture.002"
+				Image texture found, type:  diffuseTexture, mapped using: "UVMap"
+	WARNING: Error encountered processing image file:  , Error:  [Errno 2] No such file or directory: 'G:\\Arcos\\Blender\\Examen\\Final\\asd.png'
+		num positions      :  450
+		num normals        :  450
+		num uvs            :  900
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  2688
+	processing begun of mesh:  Plane
+		WARNING: No materials have been assigned: 
+		num positions      :  0
+		num normals        :  0
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  0
+	processing begun of mesh:  Sphere
+		processing begun of Standard material:  Material.001
+		processing begun of Standard material:  Material.003
+		processing begun of multimaterial:  Dwarf.Multimaterial#0
+========= An error was encountered =========
+  File "C:\Program Files\Blender Foundation\Blender\2.78\scripts\addons\babylon-js\json_exporter.py", line 99, in execute
+    mesh = Mesh(object, scene, nextStartFace, forcedParent, nameID, self)
+  File "C:\Program Files\Blender Foundation\Blender\2.78\scripts\addons\babylon-js\mesh.py", line 277, in __init__
+    matricesIndices.append(skeleton.get_index_of_bone(bone.name))
+ERROR:  'NoneType' object has no attribute 'get_index_of_bone'
+========= end of processing =========
+elapsed time:  0 min, 1.1948 secs
