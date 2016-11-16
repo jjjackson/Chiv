@@ -1,18 +1,350 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>FFA</title>
-    <style>
-        html,body,canvas { margin: 0; padding: 0; width: 100%; height: 100%; font-size: 0; }
+    <meta charset="UTF-8" />
+    <title>Chiv</title>
+    <link rel="stylesheet" href="style.css">
+	<script src="js/babylon.2.4.js"></script>
+	<script src="js/map.js"></script>
+	<script src="js/peice.js"></script>
+	<style>
+        html,body,canvas { margin: 0; padding: 0; width: 100%; height: 100%;font-family:"Arial Black", Gadget, sans-serif; }
     </style>
 </head>
 <body>
-<script src="js/babylon.2.4.js"></script>
-<script src="js/map.js"></script>
-<script src="js/peice.js"></script>
 <canvas id="render-canvas"></canvas>
-<script src="js/gameplay.js.js"></script>
+<div id="mainMenu" class="overlay">
+	<div class="popup">
+		<div id="dayCounter" class="dayCounter"></div>
+		<div id="timeControls">
+			<div class="timeControllButton" onclick="speed=1;"></div>&nbsp;&nbsp;&nbsp;
+			<div class="timeControllButton" onclick="speed=2;"></div>
+			<div class="timeControllButton" onclick="speed=2;"></div>&nbsp;&nbsp;&nbsp;
+			<div class="timeControllButton" onclick="speed=5;"></div>
+			<div class="timeControllButton" onclick="speed=5;"></div>
+			<div class="timeControllButton" onclick="speed=5;"></div>
+		</div>
+		<div class="content mainLogo">
+			<div data-content="CHIV!" class="image">
+				<img id="mainLogo" src="img/mainLogo.png" alt="" />
+			</div>
+		</div>
+		<div class="content mainMenuIcon blacksmith soon">
+			<a class="close" href="#mainMenu">
+				<div data-content="Soon..." class="image">
+					<img id="blacksmith" src="img/blacksmith.png" alt="" />
+				</div>
+			</a>
+		</div>
+		<div class="content mainMenuIcon archery soon">
+			<a class="close" href="#mainMenu">
+			<div data-content="Soon..." class="image">
+				<img id="archery_range" src="img/archery_range.png" alt="" />
+			</div>
+			</a>
+		</div>
+		<div class="content mainMenuIcon barracks">
+			<a class="close" href="#bpop">
+			<div data-content="Barracks" class="image">
+				<img id="barracks" src="img/barracks.png" alt="" />
+			</div>
+			</a>
+		</div>
+		<div class="content mainMenuIcon stable soon">
+		<a class="close" href="#mainMenu">
+			<div data-content="Soon..." class="image">
+				<img id="stable" src="img/stable.png" alt="" />
+			</div>
+			</a>
+		</div>
+		<div class="content mainMenuIcon church soon">
+			<a class="close" href="#mainMenu">
+			<div data-content="Soon..." class="image">
+				<img id="church" src="img/church.png" alt="" />
+			</div>
+			</a>
+		</div>
+		<div class="content mainMenuIcon builder">
+			<a class="close" href="#wpop">
+			<div data-content="Town Hall" class="image">
+				<img id="mainLogo" src="img/house1.png" alt="" />
+			</div>
+			</a>
+		</div>
+		<img id="wallT" src="img/woodWallTop.png" alt="" />
+		<img id="wallB" src="img/woodWallBottom.png" alt="" />
+		<div class="resourceBar">
+			<img src="img/food.png" alt='food'/>
+			<span class='foodDisplay'> 999</span>
+			<img src="img/wood.png" alt='wood'/>
+			<span class='woodDisplay'> 999</span>
+			<img src="img/metal.png" alt='metal'/>
+			<span class='metalDisplay'> 999</span>
+			<img src="img/gold.png" alt='gold'/>
+			<span class='goldDisplay'> 999</span>
+			<img src="img/villagers.png" alt='villagers'/>
+			<span class='villagerDisplay'> 999</span>
+			<img src="img/knight.png" alt='soilders'/>
+			<span class='soilderDisplay'> 999</span>
+		</div>
+	</div>
+</div>
+<div id="wpop" class="overlay">
+	<div class="popup">
+		<h2>Town Hall</h2>
+		<a class="close" href="#mainMenu">&times;</a>
+		<div class="content">
+			<div class="workerControls"> 
+				Worker Controls
+				<br>
+				<img src="img/food.png" alt='food harvesters'/>
+				<span id='farmersDisplay'> 5</span>
+				<div class="THButton" onclick="addWorker('farmer')">+</div>
+				<div class="THButton" onclick="removeWorker('farmer')">-</div>
+				<img src="img/wood.png" alt='wood harvesters'/>
+				<span id='woodsmenDisplay'> 3</span>
+				<div class="THButton" onclick="addWorker('woodsmen')">+</div>
+				<div class="THButton" onclick="removeWorker('woodsmen')">-</div>
+				<img src="img/metal.png" alt='metal miners'/>
+				<span id='metalMinersDisplay'> 3</span>
+				<div class="THButton" onclick="addWorker('metalMiner')">+</div>
+				<div class="THButton" onclick="removeWorker('metalMiner')">-</div>
+				<br>
+				<img src="img/gold.png" alt='gold miners'/>
+				<span id='goldMinersDisplay'> 4</span>
+				<div class="THButton" onclick="addWorker('goldMiner')">+</div>
+				<div class="THButton" onclick="removeWorker('goldMiner')">-</div>
+				<img src="img/knight.png" alt='soilders'/>
+				<span id='soildersDisplay'> 5</span>
+				<div class="THButton" onclick="addWorker('solider')">+</div>
+				<div class="THButton" onclick="window.location.hash='#bpop'">-</div>
+				<img src="img/Unemployed.png" alt='Unemployed'/>
+				<span id='UnemployedDisplay'> 0</span>
+			</div>
+			<br>
+			<div class="buildUpgrade">
+				Building Upgrades
+				<br>
+				<table>
+				  <tr>
+					<td rowspan="2"><img src="img/house1.png" alt='Town Hall upgrade' style="height:64px;width:64px;"/></td>
+					<td id="thlvl">Town Hall lvl:1</td>
+					<td rowspan="2"><img src="img/barracks.png" alt='Barracks upgrade' style="height:64px;width:64px;"/></td>
+					<td  id="balvl">Barracks lvl:1</td>
+				  </tr>
+				  <tr>
+					<td onclick="upgradeBuilding('th')" id="thcost">
+						<img src="img/wood.png" alt='wood'/>200<br>
+						<img src="img/metal.png" alt='metal'/>100<br>
+						<img src="img/gold.png" alt='gold'/>300</td>
+					<td onclick="upgradeBuilding('ba')" id="bacost">
+						<img src="img/wood.png" alt='wood'/>100<br>
+						<img src="img/metal.png" alt='metal'/>150<br>
+						<img src="img/gold.png" alt='gold'/>150</td>
+				  </tr>
+				  <tr>
+					<td rowspan="2"><img src="img/archery_range.png" alt='Archery upgrade' style="height:64px;width:64px;"/></td>
+					<td  id="arlvl">Archery lvl:0</td>
+					<td rowspan="2"><img src="img/stable.png" alt='Stable upgrade' style="height:64px;width:64px;"/></td>
+					<td  id="stlvl">Stable lvl:0</td>
+				  </tr>
+				  <tr>
+					<td onclick="upgradeBuilding('ar')" id="arcost">
+						<img src="img/wood.png" alt='wood'/>300<br>
+						<img src="img/metal.png" alt='metal'/>100<br>
+						<img src="img/gold.png" alt='gold'/>200</td>
+					<td onclick="upgradeBuilding('st')" id="stcost">
+						<img src="img/wood.png" alt='wood'/>200<br>
+						<img src="img/metal.png" alt='metal'/>150<br>
+						<img src="img/gold.png" alt='gold'/>250</td>
+				  </tr>
+				  <tr >
+					<td rowspan="2"><img src="img/church.png" alt='Church upgrade' style="height:64px;width:64px;"/></td>
+					<td  id="chlvl">Church lvl:0</td>
+					<td rowspan="2"><img src="img/Blacksmith.png" alt='Blacksmith upgrade' style="height:64px;width:64px;"/></td>
+					<td  id="bllvl">Smith lvl:0</td>
+				  </tr>
+				  <tr>
+					<td onclick="upgradeBuilding('ch')" id="chcost">
+						<img src="img/wood.png" alt='wood'/>400<br>
+						<img src="img/metal.png" alt='metal'/>150<br>
+						<img src="img/gold.png" alt='gold'/>450</td>
+					<td onclick="upgradeBuilding('bl')" id="blcost">
+						<img src="img/wood.png" alt='wood'/>150<br>
+						<img src="img/metal.png" alt='metal'/>150<br>
+						<img src="img/gold.png" alt='gold'/>100</td>
+				  </tr>
+				</table>
+			</div>
+			<a href="#mpop">
+				<img class="missionsBoard" src="img/notice.png"/>
+			</a>
+		</div>
+		<div class="resourceBar">
+			<img src="img/food.png" alt='food'/>
+			<span class='foodDisplay'> 999</span>
+			<img src="img/wood.png" alt='wood'/>
+			<span class='woodDisplay'> 999</span>
+			<img src="img/metal.png" alt='metal'/>
+			<span class='metalDisplay'> 999</span>
+			<img src="img/gold.png" alt='gold'/>
+			<span class='goldDisplay'> 999</span>
+			<img src="img/villagers.png" alt='villagers'/>
+			<span class='villagerDisplay'> 999</span>
+			<img src="img/knight.png" alt='soilders'/>
+			<span class='soilderDisplay'> 999</span>
+		</div>
+	</div>
+</div>
+<div id="mpop" class="overlay"> //missions page
+	<div class="popup">
+		<h2>Missions</h2>
+		<a class="close" href="#mainMenu">&times;</a>
+		<div class="StoryMissions">
+			Story Missions
+			<ul>
+				<li class="missionFinished">Defend the village</li>
+				<li class="missionReady" onclick='loadMissionDetails(2)'>Clear the mines</li>
+				<li class="missionNotReady">Raid a village</li>
+				<li class="missionNotReady">???</li>
+				<li class="missionNotReady">???</li>
+				<li class="missionNotReady">???</li>
+				<li class="missionNotReady">???</li>
+				<li class="missionNotReady">???</li>
+				<li class="missionNotReady">???</li>
+				<li class="missionNotReady">???</li>
+				<li class="missionNotReady">???</li>
+				<li class="missionNotReady">???</li>
+				<li class="missionNotReady">???</li>
+				<li class="missionNotReady">???</li>
+				<li class="missionNotReady">???</li>
+				<li class="missionNotReady">???</li>
+			</ul>
+		</div>
+		<div class="SideMissions">
+			Side Missions
+			<ul>
+				<li class="missionNotReady">Clear the mines</li>
+				<li class="missionNotReady">Raid a village</li>
+				<li class="missionNotReady">???</li>
+				<li class="missionNotReady">???</li>
+				<li class="missionNotReady">???</li>
+				<li class="missionNotReady">???</li>
+			</ul>
+		</div>
+		<div class="SideMissions">
+		Mission Details <br>
+			<div class="missionDetails">
+				Your mission should you choose to accept it is:<br>
+				<span id="missionDiscription"><br>
+				<br>
+				<br>
+				<br></span>
+			</div>
+			<div class="missionButton">Pick Warriors</div>
+			<div class="missionButton">Ready!</div>
+		</div>
+		<div class="resourceBar">
+			<img src="img/food.png" alt='food'/>
+			<span class='foodDisplay'> 999</span>
+			<img src="img/wood.png" alt='wood'/>
+			<span class='woodDisplay'> 999</span>
+			<img src="img/metal.png" alt='metal'/>
+			<span class='metalDisplay'> 999</span>
+			<img src="img/gold.png" alt='gold'/>
+			<span class='goldDisplay'> 999</span>
+			<img src="img/villagers.png" alt='villagers'/>
+			<span class='villagerDisplay'> 999</span>
+			<img src="img/knight.png" alt='soilders'/>
+			<span class='soilderDisplay'> 999</span>
+		</div>
+	</div> 
+</div>
+<div id="bpop" class="overlay">
+	<div class="popup">
+		<h2>Barracks</h2>
+		<a class="close" href="#mainMenu">&times;</a>
+		<div class="solTableDiv fs">
+			<table id="soilderTable" class="soilderTable" onclick="sTableClick(event)">
+				<tbody>
+				<tr><th>Name</th><th>XP</th><th>Weapon</th><th>Armour</th><th>Other</th><th>Retire</th></tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="armoryTablediv fs">
+			<table id="armoryTable" class="soilderTable">
+				<tbody>
+				<tr><th>Object</th><th>Own</th><th>Avail</th></tr>
+				<tr><td>Long Bow</td><td>2</td><td>1</td></tr>
+				</tbody>
+			</table>
+		</div>
+		<br>
+		<div class="armoryTablediv fs">
+			<table id="soilderTable" class="soilderTable">
+				<tbody>
+				<tr><th>Honour Role</th></tr>
+				<tr><td>John Shepherd</td></tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="resourceBar">
+			<img src="img/food.png" alt='food'/>
+			<span class='foodDisplay'> 999</span>
+			<img src="img/wood.png" alt='wood'/>
+			<span class='woodDisplay'> 999</span>
+			<img src="img/metal.png" alt='metal'/>
+			<span class='metalDisplay'> 999</span>
+			<img src="img/gold.png" alt='gold'/>
+			<span class='goldDisplay'> 999</span>
+			<img src="img/villagers.png" alt='villagers'/>
+			<span class='villagerDisplay'> 999</span>
+			<img src="img/knight.png" alt='soilders'/>
+			<span class='soilderDisplay'> 999</span>
+		</div>
+	</div> 
+</div>
+<div id="vpop" class="overlay">
+	<div class="popup">
+		<h2 id="victoryOrDefeat">Victory!</h2>
+		<a class="close" href="#mainMenu">&times;</a>
+		<div class="resultsBox">
+			<h3>Results</h3>
+			<div id="gameresults">
+			</div><br>
+			<div id="Casualities"></div>
+			<a class="acceptResults" href="#mainMenu">Accept</a>
+		</div>
+		<div class="resourceBar">
+			<img src="img/food.png" alt='food'/>
+			<span class='foodDisplay'> 999</span>
+			<img src="img/wood.png" alt='wood'/>
+			<span class='woodDisplay'> 999</span>
+			<img src="img/metal.png" alt='metal'/>
+			<span class='metalDisplay'> 999</span>
+			<img src="img/gold.png" alt='gold'/>
+			<span class='goldDisplay'> 999</span>
+			<img src="img/villagers.png" alt='villagers'/>
+			<span class='villagerDisplay'> 999</span>
+			<img src="img/knight.png" alt='soilders'/>
+			<span class='soilderDisplay'> 999</span>
+		</div>
+	</div> 
+</div>
+<div class="fps" id="fps">0</div>
+<div id="noticeLog" class="noticeLog"></div>
+<div id="objAssign" class="objAssign" onclick="assignObject(event)"></div>;
+<div id="HUD">
+	<div onclick="tryTurn()" class="endTurnButton">End Turn</div>
+	<div onclick="tryRun()" class="runButton">Retreat</div>
+</div>
+<script>
+//window.location.hash="#bpop";
+</script>
+<script src="js/game.js"></script>
+
+
+<script src="js/gameplay.js"></script>
 
 </body>
 </html>

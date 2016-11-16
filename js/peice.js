@@ -113,7 +113,7 @@ Peice.prototype.drawPeice = function(scene) {
 	this.mesh.scaling.y= 0.2;
 	this.mesh.scaling.z= 0.2;
 	
-	//var materialSphere1 = new BABYLON.StandardMaterial("texture1", scene);
+	var materialSphere1 = new BABYLON.StandardMaterial("texture1", scene);
 	
 	
 	var pos = [0.2948,0.5773,-1.0553,0.0342,0.6107,-0.8963,0.0032,0.5808,-1.2857,0.6897,0.1173,1.8594,0.3697,-0.1237,1.4575,0.3724,-0.0097,1.9005,0.3711,0.5128,2.286,0.0237,1.2498,2.2185,0.3711,1.2065,2.149,0.6663,-0.0008,1.1465,0.3713,-0.131,1.1094,0.8612,0.4048,1.8226,0.9267,1.047,1.2146,0.8396,0.3073,1.3859,0.0237,-0.083,1.9251,0.0237,-0.2011,1.4661,0.3088,0.204,2.1906
@@ -345,7 +345,7 @@ var ind = [0,1,2,3,4,5,6,7,8,4,9,10,11,12,13,14,4,15,16,14,17,18,5,16,13,9,19,3,
 	this.mesh.rotation.x=3.14/-2;
 	vertexData.applyToMesh(this.mesh, 1);
 	var materialSphere1 = new BABYLON.StandardMaterial("texture1", scene);
-	//materialSphere1.diffuseTexture = new BABYLON.Texture("models/charactef2.png", scene);
+	materialSphere1.diffuseTexture = new BABYLON.Texture("models/charactef2.png", scene);
 	this.mesh.material = materialSphere1;
 	this.mesh.handleClick = this.handleClick;
 	this.mesh.moves = 2;

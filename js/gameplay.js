@@ -86,19 +86,19 @@
 			}
 		}else{
 			food-=Map.reward[0];
-			showNotice("Raiders made off with "+Map.reward[0]+" food";
+			showNotice("Raiders made off with "+Map.reward[0]+" food");
 			wood-=Map.reward[1];
-			showNotice("Raiders made off with "+Map.reward[1]+" wood";
-			gold-=Map.reward[2;
-			showNotice("Raiders made off with "+Map.reward[1]+" gold";
+			showNotice("Raiders made off with "+Map.reward[1]+" wood");
+			gold-=Map.reward[2];
+			showNotice("Raiders made off with "+Map.reward[1]+" gold");
 			metal-=Map.reward[3];
-			showNotice("Raiders made off with "+Map.reward[1]+" metal";
+			showNotice("Raiders made off with "+Map.reward[1]+" metal");
 			villagers-=Map.reward[4];
-			showNotice("Raiders captured "+Map.reward[1]+" villagers";
+			showNotice("Raiders captured "+Map.reward[1]+" villagers");
 			var cc=20;
 			while(villagers<woodsmen+goldMiners+metalMiners+farmers){
 				cc--;
-				if(cc<0){console.log("inv Loop Break!!!");"break;
+				if(cc<0){console.log("inv Loop Break!!!");break;}
 				if(Math.random()>0.75){farmers--;continue;}
 				if(Math.random()>0.75){woodsmen--;continue;}
 				if(Math.random()>0.75){goldMiners--;continue;}
@@ -119,11 +119,12 @@
 
     var t = 0;
     var renderLoop = function () {
-        if(window.location.hash=="#")scene.render();
+        if(window.location.hash=="")
+			scene.render();
 		document.getElementById('fps').innerHTML=engine.getFps();
 		
     };
-    //engine.runRenderLoop(renderLoop);
+    engine.runRenderLoop(renderLoop);
 	window.addEventListener('resize', function() {
 		engine.resize();
 		console.log(camera);

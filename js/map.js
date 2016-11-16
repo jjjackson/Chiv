@@ -83,7 +83,7 @@ var Map = {
 		return list;
 	}
 	,handleClick:function(e){
-		if(!active)return;//dont do anything if the game is over!
+		if(!Map.active)return;//dont do anything if the game is over!
 		if((this.material==Map.mats['hili'] || this.material==Map.mats['atth'] )&& Map.peiceToMove!=""){//move the peice to this square
 			var p = Map.peiceAt(this.position.x,this.position.z); 
 			if(p!=false){ //attack the peice
