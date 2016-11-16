@@ -1,10 +1,10 @@
 var day = -12345678909876;
 var speed = 1;
 var events = [];
-var gold = 100;
-var wood = 50;
-var metal = 50;
-var food = 100;
+var gold = 5;
+var wood = 6;
+var metal = 7;
+var food = 8;
 var villagers = 20;
 var birthrate= 1/30;//one every month
 var deathrate=0;
@@ -26,8 +26,11 @@ var blacksmithLVL=0;
 var names=['Scottie','Marylyn','Drew','Nereida','Marissa','Rubin','Xavier','Nada','Ja','Ossie','Brant','Delsie','Malissa','Lupe','Tyron','Elidia','Tiera','Monnie','Mellissa','Juliette','Eliseo','Curtis','Sherry','Danette','Noe','Dennis','Shelia','Wayne','Ramon','Hermina','Myrtle','Florene','Dwight','Terese','Paris','Cleveland','William','Esperanza','Sherill','Geralyn','Linwood','Delbert','Lenny','Levi','Alonzo','Luke','Weldon','Janell','Rodger','Theo','Judson','Rashad','Edwin','Dorian','Azzie','Julio','Grace','Sherrill','Silas','Arie','Jerrell','Catarina','Jessie','Palma','Eleanora','Dottie','Hobert','Eugenia','Ryan','Verna','Nicky','Claudine','Hyman','Analisa','Eunice','Nikole','Elliot','Niesha','Malik','Jacquelin','Len','Elizabeth','Felice','Judie','Rolando','Enoch','Sondra','','Diego','Cathrine','Nguyet','Toshia','Ahmed','Juliann','Loni','Lakesha','Annamaria','Devin','Lavina','Maricela','Sade','Maryanna','Lonny','Cecila','Aldo','Eduardo','Maxwell','Darwin','Hiram','Kandi','Mariano','Ellyn','Joan','Zoila','Kathline','Kasi','Sherell','Cameron','Winnifred','Clifton','Brady','Lita','Bev','Twana','Sang','Wei','Belle','Melba','Richie','Carey','Kori','Daryl','Fernando','Merrill','Bert','Kenton','Shayne','Alice','Doloris','Haywood','Sheridan','Elliott','Willene','Deane','Alfred','Lyda','Edison','Ezequiel','Irena'];
 
 function moveTime() {
-	if(window.location.hash=="#")return;
+	document.getElementById('fps').innerHTML=typeof engine !='undefined'?Math.floor(engine.getFps()):0;
+	setTimeout(moveTime, 1000);
+	if(window.location.hash=="")return;
     day += 1000*60*60*24*speed;
+	if(events.length==0)events[0]= day+1000*60*60*24*Math.floor(Math.random()*50+30);
 	totalDays +=speed;
 	gold+=goldMiners*workPerDayPerWorker*speed*workerupgrades;
 	wood+=woodsmen*workPerDayPerWorker*speed*workerupgrades;
@@ -51,8 +54,17 @@ function moveTime() {
 		document.getElementsByClassName("soilderDisplay")[i].innerHTML=Math.floor(soliders);
 	}
 	document.getElementById('UnemployedDisplay').innerHTML = Math.floor(villagers-(woodsmen+goldMiners+soliders+metalMiners+farmers));
-	document.getElementById('dayCounter').innerHTML = (new Date(day)).toDateString()
-    setTimeout(moveTime, 1000);
+	document.getElementById('dayCounter').innerHTML = (new Date(day)).toDateString();
+	for(var i=0;i<events.length;i++){
+		if(events[i]<day){
+			console.log("event trggered!");
+			window.location.hash="";
+			showNotice("Enemy is attacking!");
+			if(typeof loadGame !='undefined')loadGame();
+			events=[];
+		}
+	}
+    
 }
 moveTime();
 addSoilder();
@@ -277,7 +289,9 @@ function retireSol(e){
 			}
 		}
 	}
-	
+	var row = document.getElementById('honourTable').insertRow(-1);
+	var namecell = row.insertCell(0);
+	namecell.innerHTML = sol[0].innerHTML;
 	sol[0].parentNode.parentNode.removeChild(sol[0].parentNode);
 	soliders--;
 	document.getElementById('soildersDisplay').innerHTML = soliders;
@@ -296,12 +310,12 @@ function getSol(name){
 function showNotice(text){
 	var otherNotices=document.getElementsByClassName('noticeBox');
 	for(var i=0;i<otherNotices.length;i++){
-		otherNotices[i].style.bottom=((otherNotices.length-i)*20 +10)+"px";
+		otherNotices[i].style.bottom=((otherNotices.length-i)*30 +10)+"px";
 	}
 	if(otherNotices.length>10)otherNotices[0].parentNode.removeChild(otherNotices[0]);
 	var iDiv = document.createElement('div');
 	iDiv.className = 'noticeBox visible';
 	iDiv.innerHTML= text;
 	document.getElementById('noticeLog').appendChild(iDiv);
-	setTimeout(function(){ iDiv.className='noticeBox hidden' }, 2000); //reset the notice bar
+	setTimeout(function(){ iDiv.className='noticeBox hidden' }, 5000); //reset the notice bar
 }

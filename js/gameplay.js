@@ -5,8 +5,8 @@
     var camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(-12, 12, -12), scene);
     var light = new BABYLON.PointLight("light", new BABYLON.Vector3(10, 20, 10), scene);
 	camera.attachControl(canvas);
-	camera.rotation.x=0.8;
-	camera.rotation.y = 0.9;
+	camera.rotation.x=0.73;
+	camera.rotation.y = 0.8;
 	var peices = [];
 	var teams = [];
 	var currentTeam = 1;
@@ -27,20 +27,31 @@
 					['g','g','g','g','g','g','g','g','g','g','g','g','h','h','g','g'],
 					['g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g']];
 	Map.drawMap(scene);
-	Map.reward=[100,100,100,100,4];
-	teams = [1,2];
-	for(var i=0;i<10;i++){
-		var p = new Peice();
-		p.mesh.team = i<5?1:2;
-		var sp = Map.getStartPos(p.mesh.team);
-		p.mesh.position.x = sp[0];
-		p.mesh.position.z = sp[1];
-		p.mesh.position.y = Map.mapData[sp[0]+Map.mapData.length/2][sp[1]+Map.mapData[0].length/2]=='g'?2.1:
-			Map.mapData[sp[0]+Map.mapData.length/2][sp[1]+Map.mapData[0].length/2]=='h'?2.6:
-			Map.mapData[sp[0]+Map.mapData.length/2][sp[1]+Map.mapData[0].length/2]=='m'?3.4:1.5;
+	
+	function loadGame(){
+		for(var i=0;i<peices.length;i++)peices[i].mesh.dispose();
+		peices=[];
+		Map.startPos=[];
+		Map.reward=[100,100,100,100,4];
+		teams = [1,2];
+		var ens = (soliders>4+townHallLVL?4+townHallLVL:soliders)+(Map.littleRandom()+Map.littleRandom()+Map.littleRandom()+Map.littleRandom()-1)/4;
+		for(var i=0;i<soliders+ens;i++){
+			var p = new Peice();
+			p.mesh.team = i<soliders&&i<(4+townHallLVL)?1:2;
+			var sp = Map.getStartPos(p.mesh.team);
+			p.mesh.position.x = sp[0];
+			p.mesh.position.z = sp[1];
+			p.mesh.name=i<soliders?document.getElementById('soilderTable').rows[i+1].children[0].innerHTML:"";
+			Map.active = true;
+			//console.log(sp);
+			p.mesh.position.y = Map.mapData[sp[0]+Map.mapData.length/2][sp[1]+Map.mapData[0].length/2]=='g'?2.1:
+				Map.mapData[sp[0]+Map.mapData.length/2][sp[1]+Map.mapData[0].length/2]=='h'?2.6:
+				Map.mapData[sp[0]+Map.mapData.length/2][sp[1]+Map.mapData[0].length/2]=='m'?3.4:1.5;
 
-		peices.push( p);
+			peices.push( p);
+		}
 	}
+	loadGame();
 	
 	function turn(){
 		var nt = teams.indexOf(currentTeam)+2;
@@ -72,7 +83,8 @@
 			showNotice("Not your turn");
 			return;
 		}
-		
+		window.location.hash="vpop";
+		document.getElementById('victoryOrDefeat').innerHTML="Defeat!";
 		if(Map.mapType!='defend'){
 			for(var i=peices.length-1;i>0;i--){
 				if(peices[i].mesh.team==1){
@@ -90,11 +102,16 @@
 			wood-=Map.reward[1];
 			showNotice("Raiders made off with "+Map.reward[1]+" wood");
 			gold-=Map.reward[2];
-			showNotice("Raiders made off with "+Map.reward[1]+" gold");
+			showNotice("Raiders made off with "+Map.reward[2]+" gold");
 			metal-=Map.reward[3];
-			showNotice("Raiders made off with "+Map.reward[1]+" metal");
+			showNotice("Raiders made off with "+Map.reward[3]+" metal");
 			villagers-=Map.reward[4];
-			showNotice("Raiders captured "+Map.reward[1]+" villagers");
+			showNotice("Raiders captured "+Map.reward[4]+" villagers");
+			if(food<0)food=0;
+					if(wood<0)wood=0;
+					if(metal<0)metal=0;
+					if(gold<0)gold=0;
+					if(villagers<0)villagers=0;
 			var cc=20;
 			while(villagers<woodsmen+goldMiners+metalMiners+farmers){
 				cc--;
@@ -121,8 +138,6 @@
     var renderLoop = function () {
         if(window.location.hash=="")
 			scene.render();
-		document.getElementById('fps').innerHTML=engine.getFps();
-		
     };
     engine.runRenderLoop(renderLoop);
 	window.addEventListener('resize', function() {

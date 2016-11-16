@@ -273,7 +273,14 @@ border-radius:50%;
 	background-color:darkred;
 	border-radius:15px;
 }
-
+.runButton{
+	position:fixed;
+	bottom:20px;
+	left:20px;
+	padding:10px;
+	background-color:darkred;
+	border-radius:15px;
+}
 .resultsBox{
 	width:90%;
 	margin:5%;
@@ -428,8 +435,10 @@ border-radius:50%;
 	position:fixed;
 	z-index:99;
 	bottom:10px;
-	font-size:18px;
-	color:white;
-	left:50%;
+	font-size:28px;
+	color:red;
+	left:0%;
+	width:100%;
+	text-align:center;
 	font-family: Tahoma, Arial, sans-serif;
 }

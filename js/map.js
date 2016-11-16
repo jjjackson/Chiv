@@ -88,30 +88,38 @@ var Map = {
 			var p = Map.peiceAt(this.position.x,this.position.z); 
 			if(p!=false){ //attack the peice
 				var dmg = Map.peiceToMove.att;
-				dmg = dmg * p.mesh.armour;
+				dmg = dmg * p.mesh.armour +Map.littleRandom()*5;
 				p.mesh.hp -= dmg;
-				console.log("attacked for "+dmg);
-				
+				//console.log("attacked for "+dmg);
+				showNotice("Player "+Map.peiceToMove.team+" Attacks Player "+p.mesh.team+" for "+dmg);
 				if(p.mesh.hp<=0){//death has occured!
 					for(var i=0;i<peices.length;i++)if(peices[i].mesh.position==p.mesh.position) peices.splice(i--,1);
 					if(!Map.peiceToMove.ranged)Map.peiceToMove.position = p.mesh.position;
 					p.mesh.dispose();
+					showNotice("Player "+Map.peiceToMove.team+" Kills A Unit");
+					var sols = document.getElementById('soilderTable').rows;
+					for(var i=1;i<sols.length;i++){
+						if(sols[i].children[0].innerHTML == Map.peiceToMove.name)sols[i].children[1].innerHTML = (parseInt(sols[i].children[1].innerHTML)+10);//named unit gettign exp
+						if(sols[i].children[0].innerHTML == p.mesh.name)retireSol(sols[i].children);//your unit dieing :(
+					}
 				}else{//no death so just move to the next square
 					console.log("moving");
-					var mm = 0;
-					var t2 = Map.tops.indexOf(this);
-					var t1 = "";
-					for(var i=-1;i<2;i++)
-						for(var j=-1;j<2;j++){
-							var tp = Map.tops[t2+Map.mapData.length*i+j];
-							if(tp.material.name=='hili')t1=tp;
+					if(lineLength(p.mesh.position.x,p.mesh.position.z,Map.peiceToMove.position.x,Map.peiceToMove.position.z)>1.9){//not next to the peice
+						var mm = 0;
+						var t2 = Map.tops.indexOf(this);
+						var t1 = "";
+						for(var i=-1;i<2;i++)
+							for(var j=-1;j<2;j++){
+								var tp = Map.tops[t2+Map.mapData.length*i+j];
+								if(typeof tp != 'undefined' && tp.material.name=='hili')t1=tp;
+							}
+						if(t1!=""){
+							Map.peiceToMove.position.x = t1.position.x;
+							Map.peiceToMove.position.z = t1.position.z;
+							Map.peiceToMove.position.y = t1.position.y+0.5;
+						}else{
+							console.log("cant find free spot!");
 						}
-					if(t1!=""){
-						Map.peiceToMove.position.x = t1.position.x;
-						Map.peiceToMove.position.z = t1.position.z;
-						Map.peiceToMove.position.y = t1.position.y+0.5;
-					}else{
-						console.log("cant find free spot!");
 					}
 				}
 			}else{//simply move the peice
@@ -125,32 +133,37 @@ var Map = {
 			for(var i=0;i<peices.length;i++) //check for victory conditions
 				if(peices[i].mesh.team!=vteam)vmultiTeam=true;
 			if(vmultiTeam==false){//game over
+				showNotice("Game Over!");
 				console.log("Game over!");
+				showNotice("Player "+vteam+" has won!");
+				showNotice(vteam==1?"Victory!":"You have been defeated!");
 				console.log(vteam+" has Won!!!");
 				Map.active=false;
 				window.location.hash="vpop";
-				if(vteam!=1){//victory
-					document.getElementById('victoryOrDefeat').innerHTML="Victory!";
-					var res = document.getElementById('gameresults').innerHTML;
-					res="";
-					for(var i=0;i<Map.reward.legth;i++){
-						if(Map.reward[i]!='')res+= Map.rewardType[i]+":"+Map.reward[i]+"<br>";
+				//{//victory
+					document.getElementById('victoryOrDefeat').innerHTML=vteam==1?"Victory!":"Defeat!";
+					var res = document.getElementById('gameresults');
+					res.innerHTML="";
+					var vd = vteam==1?1:-1;
+					for(var i=0;i<Map.reward.length;i++){
+						if(Map.reward[i]!='')res.innerHTML+= Map.rewardType[i]+":"+(vd*parseInt(Map.reward[i]))+"<br>";
 					}
-					food+=Map.reward[0];
-					wood+=Map.reward[1];
-					gold+=Map.reward[2];
-					metal+=Map.reward[3];
-					villagers+=Map.reward[4];
+					food+=Map.reward[0]*vd;
+					wood+=Map.reward[1]*vd;
+					gold+=Map.reward[2]*vd;
+					metal+=Map.reward[3]*vd;
+					villagers+=Map.reward[4]*vd;
+					if(food<0)food=0;
+					if(wood<0)wood=0;
+					if(metal<0)metal=0;
+					if(gold<0)gold=0;
+					if(villagers<0)villagers=0;
 					
-				}else{//defeat
-					document.getElementById('victoryOrDefeat').innerHTML="Defeat";
-					tryRun();
-				}
-				for(var i=0;i<peices.length;i++){//update soldiers page
-					if(peices[i].team==1){
-						
-					}
-				}
+				//}else{//defeat
+					//document.getElementById('victoryOrDefeat').innerHTML=;
+					if(vteam!=1)tryRun();
+				//}
+				
 			}
 		}else{
 			console.log("unselecting");
@@ -159,14 +172,15 @@ var Map = {
 	}
 	,getStartPos:function(team){
 		if(typeof Map.startPos[team-1]=='undefined'){//no team startpos so generate a new starting position 
-			if(Map.startPos.length==0)Map.startPos.push(Map.littleRandom()+","+
+			
+			if(Map.startPos.length==0)Map.startPos.push(parseInt(Map.mapData.length/(-2))+Math.abs(Map.littleRandom())+","+
+				Map.littleRandom());
+			if(Map.startPos.length==1)Map.startPos.push(Map.mapData.length/2-1-Math.abs(Map.littleRandom())+","+
+				Map.littleRandom());
+			if(Map.startPos.length==2)Map.startPos.push(Map.littleRandom()+","+
 				(parseInt(Map.mapData[0].length/(-2))+Math.abs(Map.littleRandom())));
-			if(Map.startPos.length==1)Map.startPos.push(Map.littleRandom()+","+
+			if(Map.startPos.length==3)Map.startPos.push(Map.littleRandom()+","+
 				(Map.mapData[0].length/2-Math.abs(Map.littleRandom())));
-			if(Map.startPos.length==2)Map.startPos.push(Map.mapData.length/(-2)+Math.abs(Map.littleRandom())+","+
-				Map.littleRandom());
-			if(Map.startPos.length==3)Map.startPos.push(Map.mapData.length/2-Math.abs(Map.littleRandom())+","+
-				Map.littleRandom());
 			
 		}
 		return Map.freeSpaceAround(Map.startPos[team-1].split(',')[0],Map.startPos[team-1].split(',')[1]);
