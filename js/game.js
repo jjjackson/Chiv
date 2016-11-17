@@ -59,7 +59,7 @@ function moveTime() {
 		if(events[i]<day){
 			console.log("event trggered!");
 			window.location.hash="";
-			showNotice("Enemy is attacking!");
+			//showNotice("Enemy is attacking!");
 			if(typeof loadGame !='undefined')loadGame();
 			events=[];
 		}

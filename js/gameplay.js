@@ -29,6 +29,7 @@
 	Map.drawMap(scene);
 	
 	function loadGame(){
+		
 		for(var i=0;i<peices.length;i++)peices[i].mesh.dispose();
 		peices=[];
 		Map.startPos=[];
@@ -50,6 +51,7 @@
 
 			peices.push( p);
 		}
+		showNotice("Your village is under attack!");
 	}
 	loadGame();
 	
@@ -78,50 +80,66 @@
 		}
 		
 	}
+	function gameEnd(){
+		var vteam=peices[0].mesh.team;
+		var vmultiTeam=false;
+		for(var i=0;i<peices.length;i++) //check for victory conditions
+			if(peices[i].mesh.team!=vteam)vmultiTeam=true;
+		if(vmultiTeam==true){//user ran away
+			if(Map.mapType!='defend'){
+				for(var i=peices.length-1;i>0;i--){
+					if(peices[i].mesh.team==1){
+						var sol= getSol(peices[i].name);
+						if(Math.random>0.9){//10% chance that you loose this peice by running away
+							sol[0].parentNode.parentNode.removeChild(sol[0].parentNode);//ourright kill unit with no items recovered
+							showNotice(peices[i].name +" was killed in the retreat");
+						}
+						peices.splice(i,1);
+					}
+				}
+			}
+		}
+		showNotice("Game Over!");
+		console.log("Game over!");
+		showNotice("Player "+vteam+" has won!");
+		showNotice(vteam==1?"Victory!":"You have been defeated!");
+		console.log(vteam+" has Won!!!");
+		Map.active=false;
+		window.location.hash="vpop";
+		document.getElementById('victoryOrDefeat').innerHTML=vteam==1?"Victory!":"Defeat!";
+		var res = document.getElementById('gameresults');
+		res.innerHTML=vteam==1?"":"Raiders have looted your village!<br>";
+		var vd = vteam==1?1:-1;
+		for(var i=0;i<Map.reward.length;i++){
+			if(Map.reward[i]!='')res.innerHTML+= Map.rewardType[i]+":"+(vd*parseInt(Map.reward[i]))+"<br>";
+		}
+		food+=Map.reward[0]*vd;
+		wood+=Map.reward[1]*vd;
+		gold+=Map.reward[2]*vd;
+		metal+=Map.reward[3]*vd;
+		villagers+=Map.reward[4]*vd;
+		if(food<0)food=0;
+		if(wood<0)wood=0;
+		if(metal<0)metal=0;
+		if(gold<0)gold=0;
+		if(villagers<0)villagers=0;
+		var cc=20;
+		while(villagers<woodsmen+goldMiners+metalMiners+farmers){
+			cc--;
+			if(cc<0){console.log("inv Loop Break!!!");break;}
+			if(Math.random()>0.75){farmers--;continue;}
+			if(Math.random()>0.75){woodsmen--;continue;}
+			if(Math.random()>0.75){goldMiners--;continue;}
+			if(Math.random()>0.75){metalMiners--;continue;}
+		}
+	}
+	
 	function tryRun(){
 		if(currentTeam!=1){
 			showNotice("Not your turn");
 			return;
 		}
-		window.location.hash="vpop";
-		document.getElementById('victoryOrDefeat').innerHTML="Defeat!";
-		if(Map.mapType!='defend'){
-			for(var i=peices.length-1;i>0;i--){
-				if(peices[i].mesh.team==1){
-					var sol= getSol(peices[i].name);
-					if(Math.random>0.9){//10% chance that you loose this peice by running away
-						sol[0].parentNode.parentNode.removeChild(sol[0].parentNode);//ourright kill unit with no items recovered
-						showNotice(peices[i].name +" was killed in the retreat");
-					}
-					peices.splice(i,1);
-				}
-			}
-		}else{
-			food-=Map.reward[0];
-			showNotice("Raiders made off with "+Map.reward[0]+" food");
-			wood-=Map.reward[1];
-			showNotice("Raiders made off with "+Map.reward[1]+" wood");
-			gold-=Map.reward[2];
-			showNotice("Raiders made off with "+Map.reward[2]+" gold");
-			metal-=Map.reward[3];
-			showNotice("Raiders made off with "+Map.reward[3]+" metal");
-			villagers-=Map.reward[4];
-			showNotice("Raiders captured "+Map.reward[4]+" villagers");
-			if(food<0)food=0;
-					if(wood<0)wood=0;
-					if(metal<0)metal=0;
-					if(gold<0)gold=0;
-					if(villagers<0)villagers=0;
-			var cc=20;
-			while(villagers<woodsmen+goldMiners+metalMiners+farmers){
-				cc--;
-				if(cc<0){console.log("inv Loop Break!!!");break;}
-				if(Math.random()>0.75){farmers--;continue;}
-				if(Math.random()>0.75){woodsmen--;continue;}
-				if(Math.random()>0.75){goldMiners--;continue;}
-				if(Math.random()>0.75){metalMiners--;continue;}
-			}
-		}
+		gameEnd();
 	}
 	
 	//turn();

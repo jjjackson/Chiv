@@ -441,4 +441,9 @@ border-radius:50%;
 	width:100%;
 	text-align:center;
 	font-family: Tahoma, Arial, sans-serif;
+	text-shadow:
+	1px 1px 0 #FFF,
+	-1px -1px 0 #FFF,
+	3px 3px 0 #FFF,
+	-3px -3px 0 #FFF;
 }

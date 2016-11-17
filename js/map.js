@@ -133,37 +133,7 @@ var Map = {
 			for(var i=0;i<peices.length;i++) //check for victory conditions
 				if(peices[i].mesh.team!=vteam)vmultiTeam=true;
 			if(vmultiTeam==false){//game over
-				showNotice("Game Over!");
-				console.log("Game over!");
-				showNotice("Player "+vteam+" has won!");
-				showNotice(vteam==1?"Victory!":"You have been defeated!");
-				console.log(vteam+" has Won!!!");
-				Map.active=false;
-				window.location.hash="vpop";
-				//{//victory
-					document.getElementById('victoryOrDefeat').innerHTML=vteam==1?"Victory!":"Defeat!";
-					var res = document.getElementById('gameresults');
-					res.innerHTML="";
-					var vd = vteam==1?1:-1;
-					for(var i=0;i<Map.reward.length;i++){
-						if(Map.reward[i]!='')res.innerHTML+= Map.rewardType[i]+":"+(vd*parseInt(Map.reward[i]))+"<br>";
-					}
-					food+=Map.reward[0]*vd;
-					wood+=Map.reward[1]*vd;
-					gold+=Map.reward[2]*vd;
-					metal+=Map.reward[3]*vd;
-					villagers+=Map.reward[4]*vd;
-					if(food<0)food=0;
-					if(wood<0)wood=0;
-					if(metal<0)metal=0;
-					if(gold<0)gold=0;
-					if(villagers<0)villagers=0;
-					
-				//}else{//defeat
-					//document.getElementById('victoryOrDefeat').innerHTML=;
-					if(vteam!=1)tryRun();
-				//}
-				
+				gameEnd();
 			}
 		}else{
 			console.log("unselecting");
