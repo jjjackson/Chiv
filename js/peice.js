@@ -3,7 +3,7 @@ function Peice (type) {
 	this.mesh;
 	this.drawPeice(scene);
 	this.baseTurns = 2;
-	this.mesh.turns = this.baseTurns;
+	this.mesh.turns = 0;
 	this.mesh.peice = this;
 }
  

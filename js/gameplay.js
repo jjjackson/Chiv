@@ -13,6 +13,7 @@
 	var peices = [];
 	var teams = [];
 	var currentTeam = 1;
+	var firstTime = true;
 	Map.mapData =  [['g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g'],
 					['g','h','h','g','g','g','g','g','g','g','g','h','h','g','g','g'],
 					['g','h','h','g','g','g','g','g','g','g','g','h','m','h','g','g'],
@@ -56,6 +57,10 @@
 			peices.push( p);
 		}
 		showNotice("Your village is under attack!");
+		if(firstTime){
+			showNotice("Click on a peice, then move it to a valid(blue) square");
+			firstTime = false;
+		}
 	}
 	loadGame();
 	
@@ -148,7 +153,7 @@
 		gameEnd();
 	}
 	
-	//turn();
+	turn();
 	document.addEventListener('keypress', function (e) {
 		var key = e.which || e.keyCode;
 		if (key === 13) { // 13 is enter
