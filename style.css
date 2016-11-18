@@ -281,6 +281,19 @@ border-radius:50%;
 	background-color:darkred;
 	border-radius:15px;
 }
+.musicButton{
+	position:fixed;
+	top:20px;
+	right:20px;
+	padding:10px;
+	color:darkred;
+	font-size:40px;
+	text-shadow:0 0 3px black;
+}
+.noMusic{
+	text-decoration:line-through;
+	text-shadow:0 0 3px white;
+}
 .resultsBox{
 	width:90%;
 	margin:5%;

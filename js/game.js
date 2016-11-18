@@ -79,6 +79,16 @@ myAudio.addEventListener('ended', function() {
     this.play();
 }, false);
 myAudio.play();
+myAudio.volume = 0.3;
+function musicPause(){
+	if(myAudio.paused){
+		document.getElementById('musicButton').className="musicButton";
+		myAudio.play();
+	}else {
+		document.getElementById('musicButton').className="musicButton noMusic";
+		myAudio.pause();
+	}
+}
 
 
 function addWorker(type){
