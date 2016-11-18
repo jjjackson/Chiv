@@ -78,7 +78,7 @@ myAudio.addEventListener('ended', function() {
     this.currentTime = 0;
     this.play();
 }, false);
-//myAudio.play();
+myAudio.play();
 
 
 function addWorker(type){
@@ -204,7 +204,7 @@ function addSoilder(){
 	XPcell=row.insertCell(4);
 	XPcell.innerHTML = "<img src='img/fist.png'></img>";
 	XPcell=row.insertCell(5);
-	XPcell.innerHTML = "<div class='retiresol' onclick='retireSol(event)'>&times;</div>";
+	XPcell.innerHTML = "<div class='updown' onclick='moveRow(event)'>&uArr;</div><div class='updown' onclick='moveRow(event)'>&dArr;</div><div class='retiresol' onclick='retireSol(event)'>&times;</div>";
 }
 function sTableClick(e){
 	var cell=e.target;
@@ -296,6 +296,13 @@ function retireSol(e){
 	soliders--;
 	document.getElementById('soildersDisplay').innerHTML = soliders;
 	document.getElementById('UnemployedDisplay').innerHTML = Math.floor(villagers-(woodsmen+goldMiners+soliders+metalMiners+farmers));
+}
+function moveRow(e){
+	var row = e.target.parentNode.parentNode;
+	var nrow = document.getElementById('soilderTable').insertRow(row.rowIndex+(e.target.innerHTML=="⇑"?-1:2));
+	nrow.innerHTML = row.innerHTML;
+	row.parentNode.removeChild(row);
+	console.log(e);
 }
 function getSol(name){
 	var objectsTable = document.getElementById('armoryTable');

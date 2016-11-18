@@ -89,6 +89,7 @@ var Map = {
 			if(p!=false){ //attack the peice
 				var dmg = Map.peiceToMove.att;
 				dmg = dmg * p.mesh.armour +Map.littleRandom()*5;
+				if(p.mesh.position.y>Map.peiceToMove.position.y)dmg = dmg * 0.7; //if attacking up hill then reduce damage
 				p.mesh.hp -= dmg;
 				//console.log("attacked for "+dmg);
 				showNotice("Player "+Map.peiceToMove.team+" Attacks Player "+p.mesh.team+" for "+dmg);
@@ -117,6 +118,7 @@ var Map = {
 							Map.peiceToMove.position.x = t1.position.x;
 							Map.peiceToMove.position.z = t1.position.z;
 							Map.peiceToMove.position.y = t1.position.y+0.5;
+							Map.peiceToMove.myTop = this;
 						}else{
 							console.log("cant find free spot!");
 						}
@@ -126,6 +128,7 @@ var Map = {
 				Map.peiceToMove.position.x = this.position.x;
 				Map.peiceToMove.position.z = this.position.z;
 				Map.peiceToMove.position.y = this.position.y+0.6;
+				Map.peiceToMove.myTop = this;
 			}
 			Map.peiceToMove.turns = parseInt(this.turns);
 			var vteam=peices[0].mesh.team;

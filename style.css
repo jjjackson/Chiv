@@ -332,9 +332,17 @@ border-radius:50%;
 .retiresol{
 	color:white;
 	background-color:darkred;
-	padding:2px;
+	width:25px;
 	border-radius:50%;
-	font-size:30px;
+	display:inline-block;
+}
+.updown{
+	background-color:ForestGreen;
+	width:25px;
+	border-radius:50%;
+	display:inline-block;
+	font-weight:bold;
+	margin-right:3px;
 }
 .fs::-webkit-scrollbar {
     width: 0.5em;
@@ -442,8 +450,8 @@ border-radius:50%;
 	text-align:center;
 	font-family: Tahoma, Arial, sans-serif;
 	text-shadow:
-	1px 1px 0 #FFF,
-	-1px -1px 0 #FFF,
-	3px 3px 0 #FFF,
-	-3px -3px 0 #FFF;
+	3px -3px 3px #FFF,
+	-3px 3px 3px #FFF,
+	3px 3px 3px #FFF,
+	-3px -3px 3px #FFF;
 }

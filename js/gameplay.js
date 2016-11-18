@@ -3,10 +3,13 @@
     var scene = new BABYLON.Scene(engine);
     scene.clearColor = new BABYLON.Color3(0.8, 0.8, 0.8);
     var camera = new BABYLON.FreeCamera("camera", new BABYLON.Vector3(-12, 12, -12), scene);
-    var light = new BABYLON.PointLight("light", new BABYLON.Vector3(10, 20, 10), scene);
+    //var light = new BABYLON.PointLight("light", new BABYLON.Vector3(100, 200, 100), scene);
+	var l2 = new BABYLON.HemisphericLight("l2",new BABYLON.Vector3(0,1,0),scene)
 	camera.attachControl(canvas);
 	camera.rotation.x=0.73;
 	camera.rotation.y = 0.8;
+	camera.inertia=0.1;
+	camera.speed=2;
 	var peices = [];
 	var teams = [];
 	var currentTeam = 1;
@@ -35,13 +38,14 @@
 		Map.startPos=[];
 		Map.reward=[100,100,100,100,4];
 		teams = [1,2];
-		var ens = (soliders>4+townHallLVL?4+townHallLVL:soliders)+(Map.littleRandom()+Map.littleRandom()+Map.littleRandom()+Map.littleRandom()-1)/4;
+		var ens = 3+townHallLVL+(Map.littleRandom()+Map.littleRandom()+Map.littleRandom()+Map.littleRandom()-1)/5;
 		for(var i=0;i<soliders+ens;i++){
 			var p = new Peice();
 			p.mesh.team = i<soliders&&i<(4+townHallLVL)?1:2;
 			var sp = Map.getStartPos(p.mesh.team);
 			p.mesh.position.x = sp[0];
 			p.mesh.position.z = sp[1];
+			p.mesh.rotation.y=p.mesh.team==1?Math.PI/2*3:Math.PI/2;
 			p.mesh.name=i<soliders?document.getElementById('soilderTable').rows[i+1].children[0].innerHTML:"";
 			Map.active = true;
 			//console.log(sp);
@@ -86,6 +90,7 @@
 		for(var i=0;i<peices.length;i++) //check for victory conditions
 			if(peices[i].mesh.team!=vteam)vmultiTeam=true;
 		if(vmultiTeam==true){//user ran away
+			vteam=2;
 			if(Map.mapType!='defend'){
 				for(var i=peices.length-1;i>0;i--){
 					if(peices[i].mesh.team==1){
@@ -124,7 +129,7 @@
 		if(gold<0)gold=0;
 		if(villagers<0)villagers=0;
 		var cc=20;
-		while(villagers<woodsmen+goldMiners+metalMiners+farmers){
+		while(villagers<(woodsmen+goldMiners+metalMiners+farmers+soliders)){
 			cc--;
 			if(cc<0){console.log("inv Loop Break!!!");break;}
 			if(Math.random()>0.75){farmers--;continue;}
@@ -132,6 +137,7 @@
 			if(Math.random()>0.75){goldMiners--;continue;}
 			if(Math.random()>0.75){metalMiners--;continue;}
 		}
+		
 	}
 	
 	function tryRun(){

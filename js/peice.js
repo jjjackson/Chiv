@@ -96,8 +96,12 @@ lineLength = function(x, y, x0, y0){
 };
 Peice.prototype.handleClick = function(e) {
 	console.log('clicked');
-	Map.peiceToMove = this;
-    Map.highlightMany(this.position.x,this.position.z,this.turns);
+	if(this.myTop!=null && this.myTop.material.name=='atth'){
+		this.myTop.handleClick(e);
+	}else{
+		Map.peiceToMove = this;
+		Map.highlightMany(this.position.x,this.position.z,this.turns);
+	}
 };
 Peice.prototype.resetTurns = function() {
 	this.mesh.turns = parseInt(this.baseTurns);
