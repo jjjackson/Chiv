@@ -14,11 +14,38 @@
 	var teams = [];
 	var currentTeam = 1;
 	var firstTime = true;
+	var vmodel;
+	var bowModel;
+	var arrowModel;
+	var rockModel;
+	BABYLON.SceneLoader.ImportMesh("Cube.001","models/", "villager.babylon", scene, function (newMeshes, particleSystems, skeletons) {
+		vmodel = newMeshes[0];
+		vmodel.skeleton = skeletons[0];
+		vmodel.scaling.x=0.3;
+		vmodel.scaling.y=0.3;
+		vmodel.scaling.z=0.3;
+	});
+	BABYLON.SceneLoader.ImportMesh("Cube","models/", "bow.babylon", scene, function (newMeshes, particleSystems, skeletons) {
+		bowModel = newMeshes[0];
+		bowModel.scaling.x=0.05;
+		bowModel.scaling.y=0.05;
+		bowModel.scaling.z=0.05;
+		bowModel.rotation.x=Math.PI/2;
+		bowModel.rotation.y=-1.1;
+		bowModel.position.z=-0.1;
+		bowModel.position.y=0.3;
+	});
+	BABYLON.SceneLoader.ImportMesh("arrow","models/", "arrow.babylon", scene, function (newMeshes, particleSystems, skeletons) {
+		arrowModel = newMeshes[0];
+		arrowModel.scaling = new BABYLON.Vector3(0.7,0.7,0.7);
+		//arrowModel.position.y=5;
+	});
+
 	Map.mapData =  [['g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g'],
 					['g','h','h','g','g','g','g','g','g','g','g','h','h','g','g','g'],
-					['g','h','h','g','g','g','g','g','g','g','g','h','m','h','g','g'],
+					['g','h','h','g','g','g','g','g','g','r','g','h','m','h','g','g'],
 					['g','g','g','g','g','g','g','g','g','g','g','h','h','g','g','g'],
-					['g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g'],
+					['g','g','g','g','r','g','g','g','g','g','g','g','g','g','g','g'],
 					['g','g','g','g','g','g','g','g','g','g','g','g','g','g','w','w'],
 					['g','g','g','g','g','g','g','g','g','g','g','g','g','w','w','w'],
 					['g','g','w','g','g','g','w','w','g','g','g','g','w','w','g','g'],
@@ -26,33 +53,36 @@
 					['g','g','g','w','w','w','g','g','w','w','w','w','g','g','g','g'],
 					['g','g','g','g','w','g','g','g','g','w','w','g','g','g','g','g'],
 					['g','g','g','g','g','g','g','g','g','g','g','g','h','h','g','g'],
-					['g','h','h','g','g','g','g','g','g','g','g','h','m','h','h','g'],
+					['g','h','h','g','g','g','g','g','r','g','g','h','m','h','h','g'],
 					['g','h','h','g','g','g','g','g','g','g','g','h','h','h','g','g'],
-					['g','g','g','g','g','g','g','g','g','g','g','g','h','h','g','g'],
+					['g','g','g','r','g','g','g','g','g','g','g','g','h','h','g','g'],
 					['g','g','g','g','g','g','g','g','g','g','g','g','g','g','g','g']];
 	Map.drawMap(scene);
 	
-	function loadGame(){
-		
-		for(var i=0;i<peices.length;i++)peices[i].mesh.dispose();
+	
+
+	
+	function loadGame(s){
+		for(var i=0;i<peices.length;i++)peices[i].killPeice();//get rid of the last game peices
 		peices=[];
 		Map.startPos=[];
 		Map.reward=[100,100,100,100,4];
 		teams = [1,2];
 		var ens = 3+townHallLVL+(Map.littleRandom()+Map.littleRandom()+Map.littleRandom()+Map.littleRandom()-1)/5;
 		for(var i=0;i<soliders+ens;i++){
-			var p = new Peice();
+			var p = new Peice(s);
 			p.mesh.team = i<soliders&&i<(4+townHallLVL)?1:2;
+			p.mesh.turns = p.mesh.team==currentTeam?p.baseTurns:0;
 			var sp = Map.getStartPos(p.mesh.team);
-			p.mesh.position.x = sp[0];
-			p.mesh.position.z = sp[1];
+			p.moveTo(sp[0],sp[1]);
 			p.mesh.rotation.y=p.mesh.team==1?Math.PI/2*3:Math.PI/2;
+			p.initialRotation = p.mesh.rotation.y;
 			p.mesh.name=i<soliders?document.getElementById('soilderTable').rows[i+1].children[0].innerHTML:"";
 			Map.active = true;
 			//console.log(sp);
-			p.mesh.position.y = Map.mapData[sp[0]+Map.mapData.length/2][sp[1]+Map.mapData[0].length/2]=='g'?2.1:
-				Map.mapData[sp[0]+Map.mapData.length/2][sp[1]+Map.mapData[0].length/2]=='h'?2.6:
-				Map.mapData[sp[0]+Map.mapData.length/2][sp[1]+Map.mapData[0].length/2]=='m'?3.4:1.5;
+			//p.mesh.position.y = 1.56:
+			//	Map.mapData[sp[0]+Map.mapData.length/2][sp[1]+Map.mapData[0].length/2]=='h'?2.06:
+			//	Map.mapData[sp[0]+Map.mapData.length/2][sp[1]+Map.mapData[0].length/2]=='m'?2.56:1.06;
 
 			peices.push( p);
 		}
@@ -62,7 +92,11 @@
 			firstTime = false;
 		}
 	}
-	loadGame();
+	scene.executeWhenReady(function () {
+		vmodel.position.y=-1000;
+		loadGame(scene);
+	});
+	
 	
 	function turn(){
 		var nt = teams.indexOf(currentTeam)+2;
@@ -81,6 +115,9 @@
 		}
 		
 	}
+	scene.registerBeforeRender(function () {
+	  
+	});
 	function tryTurn(){
 		if(currentTeam!=1){
 			showNotice("Not your turn yet!");
@@ -116,6 +153,7 @@
 		console.log(vteam+" has Won!!!");
 		Map.active=false;
 		window.location.hash="vpop";
+		if(soliders<5)setTimeout(function(){ showNotice("You should train some more soldiers") }, 5000); //reset the notice bar
 		document.getElementById('victoryOrDefeat').innerHTML=vteam==1?"Victory!":"Defeat!";
 		var res = document.getElementById('gameresults');
 		res.innerHTML=vteam==1?"":"Raiders have looted your village!<br>";
@@ -165,6 +203,11 @@
 
     var t = 0;
     var renderLoop = function () {
+		for(var i=0;i<peices.length;i++){
+		  peices[i].mesh.position.y=Map.mapData[Math.ceil(peices[i].mesh.position.x-0.5)+Map.mapData.length/2][Math.ceil(peices[i].mesh.position.z-0.5)+Map.mapData[0].length/2]=='g'?1.56:
+				Map.mapData[Math.ceil(peices[i].mesh.position.x-0.5)+Map.mapData.length/2][Math.ceil(peices[i].mesh.position.z-0.5)+Map.mapData[0].length/2]=='h'?2.06:
+				Map.mapData[Math.ceil(peices[i].mesh.position.x-0.5)+Map.mapData.length/2][Math.ceil(peices[i].mesh.position.z-0.5)+Map.mapData[0].length/2]=='m'?2.56:1.06;
+	  }
         if(window.location.hash=="")
 			scene.render();
     };
