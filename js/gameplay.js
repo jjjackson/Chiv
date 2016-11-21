@@ -17,6 +17,7 @@
 	var vmodel;
 	var bowModel;
 	var arrowModel;
+	var swordModel;
 	var rockModel;
 	BABYLON.SceneLoader.ImportMesh("Cube.001","models/", "villager.babylon", scene, function (newMeshes, particleSystems, skeletons) {
 		vmodel = newMeshes[0];
@@ -38,6 +39,14 @@
 	BABYLON.SceneLoader.ImportMesh("arrow","models/", "arrow.babylon", scene, function (newMeshes, particleSystems, skeletons) {
 		arrowModel = newMeshes[0];
 		arrowModel.scaling = new BABYLON.Vector3(0.7,0.7,0.7);
+		//arrowModel.position.y=5;
+	});
+	BABYLON.SceneLoader.ImportMesh("sword","models/", "sword.babylon", scene, function (newMeshes, particleSystems, skeletons) {
+		swordModel = newMeshes[0];
+		swordModel.position.y=0.3;
+		swordModel.position.x=0.3;
+		swordModel.rotation.z=Math.PI/2;
+		swordModel.scaling = new BABYLON.Vector3(0.4,0.4,0.4);
 		//arrowModel.position.y=5;
 	});
 

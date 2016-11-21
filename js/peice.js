@@ -8,7 +8,7 @@ function Peice (s) {
 	this.mesh.hp = 100;
 	this.mesh.mp=100;
 	this.mesh.att = 40;
-	this.mesh.ranged = true;
+	this.mesh.ranged = false;
 	this.mesh.armour = 1;
 	//myPeice.mesh.type = type;
     this.mesh.team = 1;
@@ -17,7 +17,7 @@ function Peice (s) {
 	this.initialRotation = 0;
 	this.currentX=0;
 	this.currentY=0;
-	this.weapon = bowModel.createInstance("bow"+peices.length);
+	this.weapon = swordModel.createInstance("bow"+peices.length);
 	this.weapon.attachToBone(this.mesh.skeleton.bones[15], this.mesh);
 	//this.drawPeice(s,this);
 	this.baseTurns = 2;
@@ -147,7 +147,7 @@ Peice.prototype.moveTo = function(x,y,after) {
 	scene.beginAnimation(this.mesh, 0, 100, false,1,function(){
 		if(typeof after != 'undefined'){after();}else this.target.rotation.y = this.target.peice.initialRotation;
 	});
-	if(this.mesh.skeleton!=null)this.mesh.skeleton.beginAnimation("corriendo");
+	if(this.mesh.skeleton!=null)this.mesh.skeleton.beginAnimation("run");
 	this.mesh.rotation.y= angle(this.mesh.position.x,y,x,this.mesh.position.z)-Math.PI/2;
 
 };
@@ -162,7 +162,7 @@ Peice.prototype.attackPeice = function(x,y,dmg,after) {
 	console.log("attacking!!!");
 	showNotice(dmg);
 	this.mesh.rotation.y= angle(this.mesh.position.x,y,x,this.mesh.position.z)-Math.PI/2;
-	this.mesh.skeleton.beginAnimation("ataque1",0,1,function(){
+	this.mesh.skeleton.beginAnimation("att",0,1,function(){
 		console.log("after  attacking!!!");
 		if(typeof after != 'undefined'){after();}else this.target.peice.mesh.rotation.y = this.target.peice.initialRotation;
 	});
