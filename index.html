@@ -304,6 +304,128 @@
 		</div>
 	</div> 
 </div>
+<div id="kpop" class="overlay">
+	<div class="popup">
+		<h2>Black Smith</h2>
+		<a class="close" href="#mainMenu">&times;</a>
+		<div class="smithTableDiv fs">
+			<table id="SmithTable" class="soilderTable smithTable" onclick="bTableClick(event)">
+				<tbody>
+				<tr><th></th><th>Item</th><th>XP</th><th>Req</th><th>Build</th><th>Sell</th><th>Own</th></tr>
+				<tr><th><img src="img/bsword.png" alt='bsword'/></th>
+					<td>Bronze Sword</td>
+					<td class="htd">~60 Damage</td>
+					<td class="htd">No Crit or Cleave Chance</td>
+					<td>0</td><td>Black Smith</td><td>
+					<img src="img/wood.png" alt='wood'/>10, 
+					<img src="img/metal.png" alt='metal'/>20,
+					<img src="img/gold.png" alt='gold'/>10</td>
+					</td><td><img src="img/gold.png" alt='gold'/>15</td><td>0</td>
+				</tr>
+				<tr><th><img src="img/isword.png" alt='isword'/></th>
+					<td>Iron Sword</td>
+					<td class="htd">~90 Damage</td>
+					<td class="htd">10% Crit,No cleave</td>
+					<td>100</td><td>Black Smith Lvl 2</td><td>
+					<img src="img/wood.png" alt='wood'/>20,
+					<img src="img/metal.png" alt='metal'/>30,
+					<img src="img/gold.png" alt='gold'/>15</td>
+					</td><td><img src="img/gold.png" alt='gold'/>20</td><td>0</td>
+				</tr>
+				<tr><th><img src="img/lsword.png" alt='lsword'/></th>
+					<td>Long Sword</td>
+					<td class="htd">~150 Damage</td>
+					<td class="htd">15% Crit,30% cleave</td>
+					<td>200</td><td>Black Smith Lvl 3</td><td>
+					<img src="img/wood.png" alt='wood'/>40,
+					<img src="img/metal.png" alt='metal'/>60,
+					<img src="img/gold.png" alt='gold'/>25</td>
+					</td><td><img src="img/gold.png" alt='gold'/>30</td><td>0</td>
+				</tr>
+				<tr><th><img src="img/sshield.png" alt='shield'/></th>
+					<td>Small Shield</td>
+					<td class="htd">10% chance full, 30% chance half</td>
+					<td class="htd">10% chance of breaking</td>
+					<td>0</td><td>Black Smith Lvl 2</td><td>
+					<img src="img/wood.png" alt='wood'/>60,
+					<img src="img/metal.png" alt='metal'/>30,
+					<img src="img/gold.png" alt='gold'/>15</td>
+					</td><td><img src="img/gold.png" alt='gold'/>20</td><td>0</td>
+				</tr>
+				<tr><th><img src="img/lshield.png" alt='lsheild'/></th>
+					<td>Large Shield</td>
+					<td class="htd">20% chance full, 40% chance half</td>
+					<td class="htd">Reduces Movement</td>
+					<td>0</td><td>Black Smith Lvl 3</td><td>
+					<img src="img/wood.png" alt='wood'/>20,
+					<img src="img/metal.png" alt='metal'/>70,
+					<img src="img/gold.png" alt='gold'/>35</td>
+					</td><td><img src="img/gold.png" alt='gold'/>40</td><td>0</td>
+				</tr>
+				<tr><th><img src="img/larmor.png" alt='larmor'/></th>
+					<td>Light Armor</td>
+					<td class="htd">Reduces Damage By A Quarter</td>
+					<td class="htd">Tight around the crotch</td>
+					<td>0</td><td>Black Smith</td><td>
+					<img src="img/wood.png" alt='wood'/>20,
+					<img src="img/metal.png" alt='metal'/>10,
+					<img src="img/gold.png" alt='gold'/>10</td>
+					</td><td><img src="img/gold.png" alt='gold'/>15</td><td>0</td>
+				</tr>
+				<tr><th><img src="img/marmor.png" alt='marmor'/></th>
+					<td>Meduim Armor</td>
+					<td class="htd">Reduces Damage By A Third</td>
+					<td class="htd">Limits User Actions</td>
+					<td>100</td><td>Black Smith Lvl 2</td><td>
+					<img src="img/wood.png" alt='wood'/>30,
+					<img src="img/metal.png" alt='metal'/>30,
+					<img src="img/gold.png" alt='gold'/>30</td>
+					</td><td><img src="img/gold.png" alt='gold'/>40</td><td>0</td>
+				</tr>
+				<tr><th><img src="img/harmor.png" alt='harmor'/></th>
+					<td>Heavy Armor</td><td class="htd">Reduces Damage By Half</td>
+					<td class="htd">Limits User Movement</td>
+					<td tag="2">250</td><td>Black Smith Lvl 3</td><td>
+					<img src="img/wood.png" alt='wood'/>50,
+					<img src="img/metal.png" alt='metal'/>60,
+					<img src="img/gold.png" alt='gold'/>40</td>
+					</td><td><img src="img/gold.png" alt='gold'/>50</td><td>0</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+		<br>
+		<div class="smithTableDiv fs subtablel">
+			<table id="SmithTablel" class="smithTable" >
+				<tbody>
+				<tr><th>Item</th><th>ETA</th><th>Cancel</th></tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="smithTableDiv fs subtabler">
+			<table id="SmithTabled" class="smithTable" onclick="blTableClick(event)">
+				<tbody>
+				<th>Item Details</th>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="resourceBar">
+			<img src="img/food.png" alt='food'/>
+			<span class='foodDisplay'> 999</span>
+			<img src="img/wood.png" alt='wood'/>
+			<span class='woodDisplay'> 999</span>
+			<img src="img/metal.png" alt='metal'/>
+			<span class='metalDisplay'> 999</span>
+			<img src="img/gold.png" alt='gold'/> 
+			<span class='goldDisplay'> 999</span>
+			<img src="img/villagers.png" alt='villagers'/>
+			<span class='villagerDisplay'> 999</span>
+			<img src="img/knight.png" alt='soilders'/>
+			<span class='soilderDisplay'> 999</span>
+		</div>
+	</div> 
+</div>
 <div id="vpop" class="overlay">
 	<div class="popup">
 		<h2 id="victoryOrDefeat">Victory!</h2>

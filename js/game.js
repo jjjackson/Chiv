@@ -1,6 +1,10 @@
 var day = -12345678909876;
+var firstDay = -12345678909876;
 var speed = 1;
 var events = [];
+var todo=[];
+var bbuild=[];
+var bboff=0;
 var gold = 5;
 var wood = 6;
 var metal = 7;
@@ -30,7 +34,8 @@ function moveTime() {
 	setTimeout(moveTime, 1000);
 	if(window.location.hash=="")return;
     day += 1000*60*60*24*speed;
-	if(events.length==0)events[0]= day+1000*60*60*24*Math.floor(Math.random()*50+30);
+	if(events.length<=todo.length)
+		events.push(day+1000*60*60*24*Math.floor(Math.random()*50+30));//every 50 or so days another village attacks
 	totalDays +=speed;
 	gold+=goldMiners*workPerDayPerWorker*speed*workerupgrades;
 	wood+=woodsmen*workPerDayPerWorker*speed*workerupgrades;
@@ -40,6 +45,8 @@ function moveTime() {
 		villagers--;
 		food+=20;
 	}
+	bboff++;
+	updateBETA();
 	if(gold>999)gold==999;
 	if(wood>999)wood==999;
 	if(metal>999)metal==999;
@@ -58,10 +65,45 @@ function moveTime() {
 	for(var i=0;i<events.length;i++){
 		if(events[i]<day){
 			console.log("event trggered!");
-			window.location.hash="";
-			//showNotice("Enemy is attacking!");
-			if(typeof loadGame !='undefined')loadGame();
-			events=[];
+			if(typeof todo[events[i]]=='undefined'){//no todo so must be a village attack
+				//window.location.hash="";
+				//if(typeof loadGame !='undefined')loadGame();
+				events.splice(i,1);
+				break;
+			}
+			if(todo[events[i]]=='bth'){//town hall got upgraded
+				showNotice("Town Hall Upgrade Complete!");
+				townHallLVL++;
+				document.getElementById('thcost').innerHTML = "Max LVL!";
+				document.getElementById('thlvl').innerHTML = "Town Hall lvl:"+townHallLVL;
+				document.getElementById('thcost').onclick = "";
+			}
+			if(todo[events[i]]=='bba'){//barracks got upgraded
+				showNotice("Barracks Upgrade Complete!");
+				barracksLVL++;
+				document.getElementById('bacost').innerHTML = barracksLVL>4?"Max LVL!":
+					'<img src="img/wood.png" alt="wood"/>'+(100*(barracksLVL+1))+
+					'<br><img src="img/metal.png" alt="metal"/>'+(150*(barracksLVL+1))+
+					'<br><img src="img/gold.png" alt="gold"/>'+(150*(barracksLVL+1))+'</td>';
+				document.getElementById('balvl').innerHTML = "Barracks lvl:"+barracksLVL;
+				if(barracksLVL>4)document.getElementById('bacost').onclick = "";
+				paintActive();//update max active units
+			}
+			if(todo[events[i]]=='bar'){//archery got upgraded
+				showNotice("Archery Range "+(archeryLVL==0?"Construction":"Upgrade")+" Complete!");
+				document.getElementById('archery_range').parentNode;//todo set attrabue to archery range
+				document.getElementById('archery_range').parentNode.parentNode.href = "#apop";
+				document.getElementById('archery_range').parentNode.parentNode.parentNode.className = 
+					document.getElementById('archery_range').parentNode.parentNode.parentNode.className.replace(" soon","");
+				archeryLVL++;
+				document.getElementById('arcost').innerHTML = archeryLVL>2?"Max LVL!":
+					'<img src="img/wood.png" alt="wood"/>'+(100*(archeryLVL+1))+
+					'<br><img src="img/metal.png" alt="metal"/>'+(150*(archeryLVL+1))+
+					'<br><img src="img/gold.png" alt="gold"/>'+(150*(archeryLVL+1))+'</td>';
+				document.getElementById('arlvl').innerHTML = "Barracks lvl:"+archeryLVL;
+				if(archeryLVL>2)document.getElementById('arcost').onclick = "";
+				paintActive();//update max active units
+			}
 		}
 	}
     
@@ -126,25 +168,27 @@ function updateWorkers(){
 function upgradeBuilding(type){
 	if(type=='th'&&wood>200&&metal>100&&gold>300){ //upgrade the town hall;
 		townHallLVL=2;
-		document.getElementById('thlvl').innerHTML = "Town Hall lvl:2";
-		document.getElementById('thcost').innerHTML = "Max LVL!";
 		document.getElementById('thcost').onclick = "";
 		wood-=200;
 		metal-=100;
 		gold-=300;
-		showNotice("Town Hall Upgraded!");
+		showNotice("Town Hall Building!");
+		showNotice("Estimated build time 4 weeks");
+		events.push(day+1000*60*60*24*Math.floor(Math.random()*50+30));
+		todo[events[events.length-1]]=("b"+type);
 		return;
 	}
 	if(type=='ba'&&wood>100*(barracksLVL+1)&&metal>150*(barracksLVL+1)&&gold>150*(barracksLVL+1)){
-		barracksLVL++;
-		document.getElementById('balvl').innerHTML = "Barracks lvl:"+barracksLVL;
-		if(barracksLVL>4)document.getElementById('bacost').onclick = "";
-		wood-=100*barracksLVL;
-		metal-=150*barracksLVL;
-		gold-=150*barracksLVL;
-		document.getElementById('bacost').innerHTML = barracksLVL>4?"Max LVL!":
-		'<img src="img/wood.png" alt="wood"/>'+(100*(barracksLVL+1))+'<br><img src="img/metal.png" alt="metal"/>'+(150*(barracksLVL+1))+'<br><img src="img/gold.png" alt="gold"/>'+(150*(barracksLVL+1))+'</td>';
-		showNotice("Barracks Upgraded!");
+		//barracksLVL++;
+		document.getElementById('bacost').onclick = "";
+		wood-=100*(barracksLVL+1);
+		metal-=150*(barracksLVL+1);
+		gold-=150*(barracksLVL+1);
+		document.getElementById('bacost').innerHTML = "Upgrading...";
+		showNotice("Barracks "+(barracksLVL>0?"Upgrading":"Building"));
+		showNotice("Estimated build time 2 weeks");
+		events.push(day+1000*60*60*24*Math.floor(Math.random()*4+12));
+		todo[events[events.length-1]]=("b"+type);
 		return;
 	}
 	if(type=='ar'&&wood>300*(archeryLVL+1)&&metal>100*(archeryLVL+1)&&gold>200*(archeryLVL+1)){
@@ -215,6 +259,7 @@ function addSoilder(){
 	XPcell.innerHTML = "<img src='img/fist.png'></img>";
 	XPcell=row.insertCell(5);
 	XPcell.innerHTML = "<div class='updown' onclick='moveRow(event)'>&uArr;</div><div class='updown' onclick='moveRow(event)'>&dArr;</div><div class='retiresol' onclick='retireSol(event)'>&times;</div>";
+	paintActive();
 }
 function sTableClick(e){
 	var cell=e.target;
@@ -254,6 +299,66 @@ function sTableClick(e){
 	//console.log(e.target.cellIndex);
 	//console.log(e.target.parentNode.rowIndex);
 }
+function bTableClick(e){
+	var cell = e.target;
+	if(cell.tagName!='TD')cell= cell.parentNode;//incase they click a images
+	if(cell.cellIndex==0||cell.cellIndex==1){//fill detailed info
+		document.getElementById('SmithTabled').children[0].innerHTML="<tr><th>Item Description</th></tr>"+
+			"<tr><td>"+cell.parentNode.children[1].innerHTML+"</td></tr>"+
+			"<tr><td>XP needed:"+cell.parentNode.children[4].innerHTML+"</td></tr>"+
+			"<tr><td>Benifits:"+cell.parentNode.children[2].innerHTML+"</td></tr>"+
+			"<tr><td>Drawbacks:"+cell.parentNode.children[3].innerHTML+"</td></tr>";
+	}
+	if(cell.cellIndex==6){//clicked buy
+		var cost=cell.innerText.split(",");
+		if(wood>parseInt(cost[0])&&metal>parseInt(cost[1])&&gold>parseInt(cost[2])){//they have the resources
+			if(bbuild.length==0)bboff=0;
+			bbuild.push([cell.parentNode.children[1].innerHTML,(3+parseInt(cell.parentNode.children[4].innerHTML)*0.03)]);
+			wood-=parseInt(cost[0]);
+			metal-=parseInt(cost[1]);
+			gold-=parseInt(cost[2]);
+			updateBETA();
+		}else{
+			showNotice("Not enough resources");
+		}
+	}
+}
+function updateBETA(){
+	var ins = "<tr><th>Item</th><th>ETA</th><th>Cancel</th></tr>";
+	var runningTotal=bboff*-1;
+	document.getElementById('SmithTablel').children[0].innerHTML="";
+	for(var i=0;i<bbuild.length;i++){
+		runningTotal+=parseInt(bbuild[i][1]);
+		ins+="<tr><td>"+bbuild[i][0]+"</td><td>"+(runningTotal)+ " days</td><td><div class='retiresol' onclick='cancelBuild(event)'>X</div></td></tr>";
+		if(runningTotal<=0){
+			bboff=0;
+			var ele = bbuild.shift();
+			showNotice(ele[0]+" has finished building");
+			var rows = document.getElementById('SmithTable').children[0].children;
+			for (var j=1;j<rows.length;j++){
+				if(rows[j].children[1].innerHTML==ele[0])
+					rows[j].children[8].innerHTML = parseInt(rows[j].children[8].innerHTML)+1;
+			}
+			var rows = document.getElementById('armoryTable').children[0].children;
+			var found = false;
+			for (var j=1;j<rows.length;j++){
+				if(rows[j].children[1].innerHTML==ele[0]){
+					rows[j].children[2].innerHTML = parseInt(rows[j].children[2].innerHTML)+1;
+					rows[j].children[3].innerHTML = parseInt(rows[j].children[3].innerHTML)+1;
+					found = true;
+				}
+			}
+			if(!found){
+				document.getElementById('armoryTable').children[0].innerHTML = 
+					document.getElementById('armoryTable').children[0].innerHTML+
+					"<tr><td>"+ele[0]+"</td><td>1</td><td>1</td></tr>";
+			}
+			i=-1;
+		}
+	}
+	document.getElementById('SmithTablel').children[0].innerHTML=ins;
+	//console.log(ins);
+}
 function assignObject(t){
 	var popupPicker=document.getElementById('objAssign');
 	popupPicker.style.opacity=1;
@@ -282,6 +387,12 @@ function assignObject(t){
 		}
 	}
 }
+function paintActive(){
+	var rows = document.getElementById('soilderTable').children[0].children;
+	for(var i=1;i<rows.length;i++)
+		rows[i].className=i<barracksLVL+5?"activeSol":"";
+	
+}
 
 function retireSol(e){
 	var sol = e;
@@ -306,13 +417,14 @@ function retireSol(e){
 	soliders--;
 	document.getElementById('soildersDisplay').innerHTML = soliders;
 	document.getElementById('UnemployedDisplay').innerHTML = Math.floor(villagers-(woodsmen+goldMiners+soliders+metalMiners+farmers));
+	paintActive();
 }
 function moveRow(e){
 	var row = e.target.parentNode.parentNode;
 	var nrow = document.getElementById('soilderTable').insertRow(row.rowIndex+(e.target.innerHTML=="⇑"?-1:2));
 	nrow.innerHTML = row.innerHTML;
 	row.parentNode.removeChild(row);
-	console.log(e);
+	paintActive();
 }
 function getSol(name){
 	var objectsTable = document.getElementById('armoryTable');

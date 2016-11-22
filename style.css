@@ -216,6 +216,9 @@ border-radius:50%;
 .buildUpgrade td{
 	line-height:15px;
 }
+.activeSol{
+	background-color:darkred;
+}	
 .StoryMissions{
 	width:250px;
 	margin:10px;
@@ -320,6 +323,11 @@ border-radius:50%;
 	width:67%;
 	float:left;
 }
+.smithTableDiv{
+	max-height:480px;
+	overflow:auto;
+	width:100%;
+}
 .soilderTable{
 	width:100%;
 	background-color:darkgreen;
@@ -327,6 +335,19 @@ border-radius:50%;
 	text-align:center;
 	color:white;
 	padding-bottom:40px;
+}
+.subtablel{
+	width:64%;
+	float:left;
+	display:inline-block;
+}
+.htd{
+	display:none;
+}
+.subtabler{
+	width:35%;
+	float:right;
+	display:inline-block;
 }
 .armoryTablediv{
 	width:32%;
@@ -369,6 +390,21 @@ border-radius:50%;
   background-color: black;
   outline: 1px solid darkgreen;
 }
+.fs img{
+	display:inline-block;
+	height:24px;
+	width:24px;
+	margin-bottom: -5px;
+}
+.smithTable{
+	width:100%;
+	background-color:darkgreen;
+	border-radius:15px;
+	text-align:center;
+	color:white;
+	padding-bottom:40px;
+}
+
 .overlay {
   position: fixed;
   top: 0;
