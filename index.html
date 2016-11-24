@@ -309,7 +309,7 @@
 		<h2>Black Smith</h2>
 		<a class="close" href="#mainMenu">&times;</a>
 		<div class="smithTableDiv fs">
-			<table id="SmithTable" class="soilderTable smithTable" onclick="bTableClick(event)">
+			<table id="SmithTable" class="soilderTable smithTable" onclick="bTableClick(event,'SmithTable')">
 				<tbody>
 				<tr><th></th><th>Item</th><th>XP</th><th>Req</th><th>Build</th><th>Sell</th><th>Own</th></tr>
 				<tr><th><img src="img/bsword.png" alt='bsword'/></th>
@@ -394,7 +394,6 @@
 				</tbody>
 			</table>
 		</div>
-		<br>
 		<div class="smithTableDiv fs subtablel">
 			<table id="SmithTablel" class="smithTable" >
 				<tbody>
@@ -403,7 +402,7 @@
 			</table>
 		</div>
 		<div class="smithTableDiv fs subtabler">
-			<table id="SmithTabled" class="smithTable" onclick="blTableClick(event)">
+			<table id="SmithTabled" class="smithTable" ">
 				<tbody>
 				<th>Item Details</th>
 				</tbody>
@@ -418,6 +417,166 @@
 			<img src="img/metal.png" alt='metal'/>
 			<span class='metalDisplay'> 999</span>
 			<img src="img/gold.png" alt='gold'/> 
+			<span class='goldDisplay'> 999</span>
+			<img src="img/villagers.png" alt='villagers'/>
+			<span class='villagerDisplay'> 999</span>
+			<img src="img/knight.png" alt='soilders'/>
+			<span class='soilderDisplay'> 999</span>
+		</div>
+	</div> 
+</div>
+<div id="apop" class="overlay">
+	<div class="popup">
+		<h2>Archery Range</h2>
+		<a class="close" href="#mainMenu">&times;</a>
+		<div class="smithTableDiv fs">
+			<table id="ArcheryTable" class="soilderTable smithTable" onclick="bTableClick(event)">
+				<tbody>
+				<tr><th></th><th>Item</th><th>XP</th><th>Req</th><th>Build</th><th>Sell</th><th>Own</th></tr>
+				<tr><th><img src="img/bow.png" alt='bow'/></th>
+					<td>Bow</td>
+					<td class="htd">~50 Damage</td>
+					<td class="htd">10% chance to miss</td>
+					<td>0</td><td>Archery Range</td><td>
+					<img src="img/wood.png" alt='wood'/>30, 
+					<img src="img/metal.png" alt='metal'/>10,
+					<img src="img/gold.png" alt='gold'/>20</td>
+					</td><td><img src="img/gold.png" alt='gold'/>25</td><td>0</td>
+				</tr>
+				<tr><th><img src="img/cbow.png" alt='crossbow'/></th>
+					<td>Cross Bow</td>
+					<td class="htd">~60 Damage, can move+ fire</td>
+					<td class="htd">5% chance to miss</td>
+					<td>100</td><td>Archery Range Lvl 2</td><td>
+					<img src="img/wood.png" alt='wood'/>40,
+					<img src="img/metal.png" alt='metal'/>40,
+					<img src="img/gold.png" alt='gold'/>25</td>
+					</td><td><img src="img/gold.png" alt='gold'/>30</td><td>0</td>
+				</tr>
+				<tr><th><img src="img/lbow.png" alt='long bow'/></th>
+					<td>Long Bow</td>
+					<td class="htd">~120 Damage</td>
+					<td class="htd">Cant be used on a horse</td>
+					<td>200</td><td>Archery Range Lvl 3</td><td>
+					<img src="img/wood.png" alt='wood'/>90,
+					<img src="img/metal.png" alt='metal'/>40,
+					<img src="img/gold.png" alt='gold'/>35</td>
+					</td><td><img src="img/gold.png" alt='gold'/>40</td><td>0</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+		<br>
+		<div class="smithTableDiv fs subtablel">
+			<table id="ArcheryTablel" class="smithTable" >
+				<tbody>
+				<tr><th>Item</th><th>ETA</th><th>Cancel</th></tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="smithTableDiv fs subtabler">
+			<table id="ArcheryTabled" class="smithTable" >
+				<tbody>
+				<th>Item Details</th>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="resourceBar">
+			<img src="img/food.png" alt='food'/>
+			<span class='foodDisplay'> 999</span>
+			<img src="img/wood.png" alt='wood'/>
+			<span class='woodDisplay'> 999</span>
+			<img src="img/metal.png" alt='metal'/>
+			<span class='metalDisplay'> 999</span>
+			<img src="img/gold.png" alt='gold'/> 
+			<span class='goldDisplay'> 999</span>
+			<img src="img/villagers.png" alt='villagers'/>
+			<span class='villagerDisplay'> 999</span>
+			<img src="img/knight.png" alt='soilders'/>
+			<span class='soilderDisplay'> 999</span>
+		</div>
+	</div> 
+</div>
+<div id="spop" class="overlay">
+	<div class="popup">
+		<h2>Stable</h2>
+		<a class="close" href="#mainMenu">&times;</a>
+		<div class="smithTableDiv fs">
+			<table id="StableTable" class="soilderTable smithTable" onclick="bTableClick(event)">
+				<tbody>
+				<tr><th></th><th>Item</th><th>XP</th><th>Req</th><th>Build</th><th>Sell</th><th>Own</th></tr>
+				<tr><th><img src="img/horse.png" alt='horse'/></th>
+					<td>Horse</td>
+					<td class="htd">+2 movement</td>
+					<td class="htd">needs food</td>
+					<td>0</td><td>Stable</td><td>
+					<img src="img/wood.png" alt='wood'/>20, 
+					<img src="img/metal.png" alt='metal'/>20,
+					<img src="img/gold.png" alt='gold'/>60</td>
+					</td><td><img src="img/gold.png" alt='gold'/>60</td><td>0</td>
+				</tr>
+				<tr><th><img src="img/horse.png" alt='Fast Horse'/></th>
+					<td>Fast Horse</td>
+					<td class="htd">+3 movement</td>
+					<td class="htd">needs food</td>
+					<td>100</td><td>Stable 2</td><td>
+					<img src="img/wood.png" alt='wood'/>43,
+					<img src="img/metal.png" alt='metal'/>30,
+					<img src="img/gold.png" alt='gold'/>150</td>
+					</td><td><img src="img/gold.png" alt='gold'/>150</td><td>0</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+		<br>
+		<div class="smithTableDiv fs subtablel">
+			<table id="StableTablel" class="smithTable" >
+				<tbody>
+				<tr><th>Item</th><th>ETA</th><th>Cancel</th></tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="smithTableDiv fs subtabler">
+			<table id="StableTabled" class="smithTable">
+				<tbody>
+				<th>Item Details</th>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="resourceBar">
+			<img src="img/food.png" alt='food'/>
+			<span class='foodDisplay'> 999</span>
+			<img src="img/wood.png" alt='wood'/>
+			<span class='woodDisplay'> 999</span>
+			<img src="img/metal.png" alt='metal'/>
+			<span class='metalDisplay'> 999</span>
+			<img src="img/gold.png" alt='gold'/> 
+			<span class='goldDisplay'> 999</span>
+			<img src="img/villagers.png" alt='villagers'/>
+			<span class='villagerDisplay'> 999</span>
+			<img src="img/knight.png" alt='soilders'/>
+			<span class='soilderDisplay'> 999</span>
+		</div>
+	</div> 
+</div>
+
+<div id="cpop" class="overlay">
+	<div class="popup">
+		<h2 >Church</h2>
+		<a class="close" href="#mainMenu">&times;</a>
+		<div class="resultsBox">
+			To be completed;
+		</div>
+		<div class="resourceBar">
+			<img src="img/food.png" alt='food'/>
+			<span class='foodDisplay'> 999</span>
+			<img src="img/wood.png" alt='wood'/>
+			<span class='woodDisplay'> 999</span>
+			<img src="img/metal.png" alt='metal'/>
+			<span class='metalDisplay'> 999</span>
+			<img src="img/gold.png" alt='gold'/>
 			<span class='goldDisplay'> 999</span>
 			<img src="img/villagers.png" alt='villagers'/>
 			<span class='villagerDisplay'> 999</span>

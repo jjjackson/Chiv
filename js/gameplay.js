@@ -78,6 +78,8 @@
 		Map.reward=[100,100,100,100,4];
 		teams = [1,2];
 		var ens = 3+townHallLVL+(Map.littleRandom()+Map.littleRandom()+Map.littleRandom()+Map.littleRandom()-1)/5;
+		var playerfear=0;
+		var sols = document.getElementById('soilderTable').rows;
 		for(var i=0;i<soliders+ens;i++){
 			var p = new Peice(s);
 			p.mesh.team = i<soliders&&i<(4+townHallLVL)?1:2;
@@ -86,7 +88,47 @@
 			p.moveTo(sp[0],sp[1]);
 			p.mesh.rotation.y=p.mesh.team==1?Math.PI/2*3:Math.PI/2;
 			p.initialRotation = p.mesh.rotation.y;
-			p.mesh.name=i<soliders?document.getElementById('soilderTable').rows[i+1].children[0].innerHTML:"";
+			p.mesh.name=i<soliders?sols[i+1].children[0].innerHTML:"enemyName";
+			if(sols[i+1].children[2].children[0].title!=""){//sol has weapon
+				if(sols[i+1].children[2].children[0].title=="Bow"){
+					p.mesh.ranged = true;
+					p.weapon = bowModel.createInstance("bow"+peices.length);
+					p.mesh.att=50;
+					p.mesh.cc = 0.01;
+					p.mesh.mc = 0.1;
+				}
+				if(sols[i+1].children[2].children[0].title=="Cross Bow"){
+					p.mesh.ranged = true;
+					p.weapon = bowModel.createInstance("bow"+peices.length);
+					p.mesh.att=60;
+					p.mesh.cc = 0.05;
+					p.mesh.mc=0.15;
+				}
+				if(sols[i+1].children[2].children[0].title=="Long Bow"){
+					p.mesh.ranged = true;
+					p.weapon = bowModel.createInstance("bow"+peices.length);
+					p.mesh.att=120;
+					p.mesh.cc = 0.05;
+					p.mesh.mc = 0.01;
+				}
+				if(sols[i+1].children[2].children[0].title=="Bronze Sword"){
+					p.weapon = swordModel.createInstance("sword"+peices.length);
+					p.mesh.att=60;
+					p.mesh.mc = 0.1;
+				}
+				if(sols[i+1].children[2].children[0].title=="Iron Sword"){
+					p.weapon = swordModel.createInstance("sword"+peices.length);
+					p.mesh.att=90;
+					p.mesh.mc = 0.05;
+				}
+				if(sols[i+1].children[2].children[0].title=="Long Sword"){
+					p.weapon = swordModel.createInstance("sword"+peices.length);
+					p.mesh.att=150;
+					p.mesh.mc = 0.01;
+					p.mesh.cleave = true;
+				}
+				p.weapon.attachToBone(p.mesh.skeleton.bones[15], p.mesh);
+			}
 			Map.active = true;
 			//console.log(sp);
 			//p.mesh.position.y = 1.56:

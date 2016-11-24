@@ -7,8 +7,11 @@ function Peice (s) {
 	this.mesh.moves = 2;
 	this.mesh.hp = 100;
 	this.mesh.mp=100;
+	this.mesh.cc=0;
+	this.mesh.mc=0;
 	this.mesh.att = 40;
 	this.mesh.ranged = false;
+	this.mesh.cleave = false;
 	this.mesh.armour = 1;
 	//myPeice.mesh.type = type;
     this.mesh.team = 1;
@@ -17,8 +20,6 @@ function Peice (s) {
 	this.initialRotation = 0;
 	this.currentX=0;
 	this.currentY=0;
-	this.weapon = swordModel.createInstance("bow"+peices.length);
-	this.weapon.attachToBone(this.mesh.skeleton.bones[15], this.mesh);
 	//this.drawPeice(s,this);
 	this.baseTurns = 2;
 	this.moveX = new BABYLON.Animation("movementAnimation", "position.x", 30, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
