@@ -34,6 +34,7 @@ var Map = {
 		Map.deHighlight();
 		if(d<1)return;
 		//var sometop=[];
+		
 		 Map.hlsur(Map.tops[Map.mapData.length*Map.mapData[0].length/2+Map.mapData[0].length/2+x*Map.mapData.length+y],parseInt(d))	;
 		//for(var i=0;i<altop.length;i++)if(altop[i].material.name=='atth' || altop[i].material.name=='hihi')sometop.push(altop[i]);
 		//return sometop;
@@ -41,12 +42,13 @@ var Map = {
 		//var l = Map.getSurrounding(x,y,d+1,[]);
 		//for(var i = 0;i<l.length;i++)Map.highlight(l[i].split(",")[0],l[i].split(",")[1],l[i].split(",")[2]);
 	}
-	,hlsur(t,m){
+	,hlsur:function(t,m){
 		if(typeof t== 'undefined' || m<0)return;
-		console.log(t.material.name);
+		//console.log(t.material.name);
 		if((t.material == Map.mats['hili'] || t.material == Map.mats['atth'])&&parseInt(t.turns)>=m)return;
 		if(t.position.y==2.5||t.position.y==1)m = parseInt(m)-1;
 		Map.highlighttop(t,m);
+		//if((t.material != Map.mats['hili'] || t.material != Map.mats['atth']))return;//
 		var allTops=[t];
 		for(var i=-1;i<2;i++)
 			for(var j=-1;j<2;j++){
@@ -66,7 +68,53 @@ var Map = {
 				var dmg = Map.peiceToMove.att;
 				dmg = dmg * p.mesh.armour +Map.littleRandom()*5;
 				if(p.mesh.position.y>Map.peiceToMove.position.y)dmg = dmg * 0.7; //if attacking up hill then reduce damage
+				if(p.mesh.cc!=null){
+					if(Math.random()<parseFloat(p.mesh.cc)){
+						dmg = Math.random()>p.mesh.cc;
+						showNotice("Critical Attack!");
+					}
+				}
+				if(p.mesh.mc!=null){
+					if(Math.random()<parseFloat(p.mesh.mc)){
+						dmg = 0;
+						showNotice("Attack Missed!");
+					}
+				}
+				if(p.mesh.cc!=null)dmg = Math.random()>p.mesh.cc?(dmg*2):dmg;
+				if(p.sheild!=null){
+					if(p.sheild.name.charAt(0)=='s'){//small sheild
+						if(Math.random()>0.9){
+							dmg=0;
+							showNotice("Attack Blocked!");
+						}
+						if(Math.random()>0.7){
+							dmg=dmg*0.5;
+							showNotice("Attack Deflected!");
+						}
+						
+					}
+					if(p.sheild.name.charAt(0)=='l'){//small sheild
+						if(Math.random()>0.8){
+							dmg=0;
+							showNotice("Attack Blocked!");
+						}
+						if(Math.random()>0.6){
+							dmg=dmg*0.5;
+							showNotice("Attack Deflected!");
+						}
+					}
+				}
 				p.mesh.hp -= dmg;
+				if(Map.peiceToMove.cleave==true){
+					var op = Map.peiceAt(p.mesh.position.x+1,p.mesh.position.z);
+					var op2 = Map.peiceAt(p.mesh.position.x-1,p.mesh.position.z);
+					var op3 = Map.peiceAt(p.mesh.position.x,p.mesh.position.z-1);
+					var op4 = Map.peiceAt(p.mesh.position.x,p.mesh.position.z+1);
+					if(op!=false && op.mesh.team !=Map.peiceToMove.team){op.mesh.hp -= dmg*0.3;if(op.mesh.hp<=0)op.killPeice();}
+					if(op2!=false && op2.mesh.team !=Map.peiceToMove.team){op2.mesh.hp -= dmg*0.3;if(op2.mesh.hp<=0)op2.killPeice();}
+					if(op3!=false && op3.mesh.team !=Map.peiceToMove.team){op3.mesh.hp -= dmg*0.3;if(op3.mesh.hp<=0)op3.killPeice();}
+					if(op4!=false && op4.mesh.team !=Map.peiceToMove.team){op4.mesh.hp -= dmg*0.3;if(op4.mesh.hp<=0)op4.killPeice();}
+				}
 				//console.log("attacked for "+dmg);
 				var aa;
 				if(p.mesh.hp<=0){//death has occured!
@@ -82,7 +130,9 @@ var Map = {
 						if(sols[i].children[0].innerHTML == p.mesh.name)retireSol(sols[i].children);//your unit dieing :(
 					}
 				}
-				af =  function(){Map.peiceToMove.peice.attackPeice(p.mesh.position.x,p.mesh.position.z,"Player "+Map.peiceToMove.team+" Attacks Player "+p.mesh.team+" for "+dmg,aa);}//run the attack animation;
+				af =  function(){
+					Map.peiceToMove.peice.attackPeice(p.mesh.position.x,p.mesh.position.z,"Player "+Map.peiceToMove.team+" Attacks Player "+p.mesh.team+" for "+dmg,aa);
+				}//run the attack animation;
 				if(lineLength(p.mesh.position.x,p.mesh.position.z,Map.peiceToMove.position.x,Map.peiceToMove.position.z)>1.9 && !Map.peiceToMove.ranged){//not next to the peice
 					console.log("moving");
 					var mm = 0;
@@ -355,7 +405,7 @@ var Map = {
 		rock.position.y = 1.95;
 		rock.rotation.y=Math.random()*Math.PI*2;
 	}
-	,makeRock(){
+	,makeRock:function(){
 		console.log("making a rock!!!");
 		rockModel = new BABYLON.Mesh("blank", scene);
 		var pos = [-1.2881,-0.5201,0.4294,-0.8772,-0.8765,0.8815,-1,-1,0.3333,0.5127,-0.5683,1.2881,0.9003,-0.8851,0.8815,0.3333,-1,1,1.413,-0.5924,-0.4294,0.9003,-0.8851,-0.8815,1,-1,-0.3333,-0.3877,-0.5442,-1.2881,-0.8772,-0.8765,-0.8815,-0.3333,-1,-1,0.3333,-1,0.3333,1,-1,0.3333,1.2229,0.4154,-0.4294,1.0777,-0.4704,-1.0472,-0.8932,0.731,-0.8972

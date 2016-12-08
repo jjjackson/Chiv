@@ -95,7 +95,7 @@
 		<a class="close" href="#mainMenu">&times;</a>
 		<div class="content">
 			<div class="workerControls"> 
-				Worker Controls
+				Villager Assignments
 				<br>
 				<img src="img/food.png" alt='food harvesters'/>
 				<span id='farmersDisplay'> 5</span>
@@ -275,7 +275,7 @@
 			<table id="armoryTable" class="soilderTable">
 				<tbody>
 				<tr><th>Object</th><th>Own</th><th>Avail</th></tr>
-				<tr><td>Long Bow</td><td>2</td><td>1</td></tr>
+				<tr><td>Bow</td><td>1</td><td>1</td></tr>
 				</tbody>
 			</table>
 		</div>
@@ -316,11 +316,13 @@
 					<td>Bronze Sword</td>
 					<td class="htd">~60 Damage</td>
 					<td class="htd">No Crit or Cleave Chance</td>
-					<td>0</td><td>Black Smith</td><td>
-					<img src="img/wood.png" alt='wood'/>10, 
-					<img src="img/metal.png" alt='metal'/>20,
-					<img src="img/gold.png" alt='gold'/>10</td>
-					</td><td><img src="img/gold.png" alt='gold'/>15</td><td>0</td>
+					<td>0</td><td>Black Smith</td>
+					<td>
+						<img src="img/wood.png" alt='wood'/>10, 
+						<img src="img/metal.png" alt='metal'/>20,
+						<img src="img/gold.png" alt='gold'/>10</td>
+					</td>
+					<td><img src="img/gold.png" alt='gold'/>15</td><td>0</td>
 				</tr>
 				<tr><th><img src="img/isword.png" alt='isword'/></th>
 					<td>Iron Sword</td>
@@ -330,7 +332,7 @@
 					<img src="img/wood.png" alt='wood'/>20,
 					<img src="img/metal.png" alt='metal'/>30,
 					<img src="img/gold.png" alt='gold'/>15</td>
-					</td><td><img src="img/gold.png" alt='gold'/>20</td><td>0</td>
+					<td><img src="img/gold.png" alt='gold'/>20</td><td>0</td>
 				</tr>
 				<tr><th><img src="img/lsword.png" alt='lsword'/></th>
 					<td>Long Sword</td>
@@ -619,6 +621,7 @@
 	<div onclick="tryTurn()" class="endTurnButton">End Turn</div>
 	<div onclick="tryRun()" class="runButton">Retreat</div>
 	<div id="musicButton" onclick="musicPause()" class="musicButton">&#9835;</div>
+	<div id="cameraButton" onclick="changeCamera()" class="cameraButton"><img src="img/cam.png" alt='camera'/></div>
 </div>
 <script>
 //window.location.hash="#bpop";

@@ -507,3 +507,14 @@ border-radius:50%;
 	3px 3px 3px #FFF,
 	-3px -3px 3px #FFF;
 }
+.cameraButton{
+	position:fixed;
+	top:45px;
+	left:5px;
+	width:32px;
+	height:32px;
+}
+.cameraButton img{
+	width:32px;
+	height:32px;
+}

@@ -32,12 +32,18 @@ var barracksLVL=1;
 var archeryLVL=0;
 var stableLVL=0;
 var churchLVL=0;
+var currentCam="IsoMetric";
 var blacksmithLVL=0;
 var names=['Scottie','Marylyn','Drew','Nereida','Marissa','Rubin','Xavier','Nada','Ja','Ossie','Brant','Delsie','Malissa','Lupe','Tyron','Elidia','Tiera','Monnie','Mellissa','Juliette','Eliseo','Curtis','Sherry','Danette','Noe','Dennis','Shelia','Wayne','Ramon','Hermina','Myrtle','Florene','Dwight','Terese','Paris','Cleveland','William','Esperanza','Sherill','Geralyn','Linwood','Delbert','Lenny','Levi','Alonzo','Luke','Weldon','Janell','Rodger','Theo','Judson','Rashad','Edwin','Dorian','Azzie','Julio','Grace','Sherrill','Silas','Arie','Jerrell','Catarina','Jessie','Palma','Eleanora','Dottie','Hobert','Eugenia','Ryan','Verna','Nicky','Claudine','Hyman','Analisa','Eunice','Nikole','Elliot','Niesha','Malik','Jacquelin','Len','Elizabeth','Felice','Judie','Rolando','Enoch','Sondra','','Diego','Cathrine','Nguyet','Toshia','Ahmed','Juliann','Loni','Lakesha','Annamaria','Devin','Lavina','Maricela','Sade','Maryanna','Lonny','Cecila','Aldo','Eduardo','Maxwell','Darwin','Hiram','Kandi','Mariano','Ellyn','Joan','Zoila','Kathline','Kasi','Sherell','Cameron','Winnifred','Clifton','Brady','Lita','Bev','Twana','Sang','Wei','Belle','Melba','Richie','Carey','Kori','Daryl','Fernando','Merrill','Bert','Kenton','Shayne','Alice','Doloris','Haywood','Sheridan','Elliott','Willene','Deane','Alfred','Lyda','Edison','Ezequiel','Irena'];
 
 function moveTime() {
 	document.getElementById('fps').innerHTML=typeof engine !='undefined'?Math.floor(engine.getFps()):0;
 	setTimeout(moveTime, 1000);
+	for(var i=0;i<peices.length;i++){
+	  peices[i].mesh.position.y=Map.mapData[Math.ceil(peices[i].mesh.position.x-0.5)+Map.mapData.length/2][Math.ceil(peices[i].mesh.position.z-0.5)+Map.mapData[0].length/2]=='g'?1.56:
+			Map.mapData[Math.ceil(peices[i].mesh.position.x-0.5)+Map.mapData.length/2][Math.ceil(peices[i].mesh.position.z-0.5)+Map.mapData[0].length/2]=='h'?2.06:
+			Map.mapData[Math.ceil(peices[i].mesh.position.x-0.5)+Map.mapData.length/2][Math.ceil(peices[i].mesh.position.z-0.5)+Map.mapData[0].length/2]=='m'?2.56:1.06;
+	}
 	if(window.location.hash=="")return;
     day += 1000*60*60*24*speed;
 	if(events.length<=todo.length)
@@ -76,8 +82,8 @@ function moveTime() {
 		if(events[i]<day){
 			console.log("event trggered!");
 			if(typeof todo[events[i]]=='undefined'){//no todo so must be a village attack
-				//window.location.hash="";
-				//if(typeof loadGame !='undefined')loadGame();
+				window.location.hash="";
+				if(typeof loadGame !='undefined')loadGame();
 				events.splice(i,1);
 				break;
 			}
@@ -118,12 +124,12 @@ function moveTime() {
 	}
     
 }
-moveTime();
 addSoilder();
 addSoilder();
 addSoilder();
 addSoilder();
 addSoilder();
+
 //music stuff!
 myAudio = new Audio('sounds/main.ogg'); 
 myAudio.addEventListener('ended', function() {
@@ -132,6 +138,7 @@ myAudio.addEventListener('ended', function() {
 }, false);
 myAudio.play();
 myAudio.volume = 0.3;
+moveTime();
 function musicPause(){
 	if(myAudio.paused){
 		document.getElementById('musicButton').className="musicButton";
@@ -203,9 +210,9 @@ function upgradeBuilding(type){
 	if(type=='ar'&&wood>300*(archeryLVL+1)&&metal>100*(archeryLVL+1)&&gold>200*(archeryLVL+1)){
 		document.getElementById(type+'cost').onclick = "";
 		document.getElementById(type+'cost').innerHTML = "Upgrading...";
-		wood-=300*archeryLVL;
-		metal-=100*archeryLVL;
-		gold-=200*archeryLVL;
+		wood-=300*(archeryLVL+1);
+		metal-=100*(archeryLVL+1);
+		gold-=200*(archeryLVL+1);
 		showNotice("Archery Range "+(archeryLVL>0?"Upgrading":"Building"));
 		showNotice("Estimated build time 3 weeks");
 		tbuild.push([type,Math.floor(Math.random()*4+19)]);
@@ -214,9 +221,9 @@ function upgradeBuilding(type){
 	if(type=='st'&&wood>200*(stableLVL+1)&&metal>150*(stableLVL+1)&&gold>250*(stableLVL+1)){
 		document.getElementById(type+'cost').onclick = "";
 		document.getElementById(type+'cost').innerHTML = "Upgrading...";
-		wood-=200*stableLVL;
-		metal-=150*stableLVL;
-		gold-=250*stableLVL;
+		wood-=200*(stableLVL+1);
+		metal-=150*(stableLVL+1);
+		gold-=250*(stableLVL+1);
 		showNotice("Stable "+(stableLVL>0?"Upgrading":"Building"));
 		showNotice("Estimated build time 3 weeks");
 		tbuild.push([type,Math.floor(Math.random()*4+19)]);
@@ -225,9 +232,9 @@ function upgradeBuilding(type){
 	if(type=='ch'&&wood>400*(churchLVL+1)&&metal>150*(churchLVL+1)&&gold>450*(churchLVL+1)){
 		document.getElementById(type+'cost').onclick = "";
 		document.getElementById(type+'cost').innerHTML = "Upgrading...";
-		wood-=400*churchLVL;
-		metal-=150*churchLVL;
-		gold-=450*churchLVL;
+		wood-=400*(churchLVL+1);
+		metal-=150*(churchLVL+1);
+		gold-=450*(churchLVL+1);
 		showNotice("Church "+(churchLVL>0?"Upgrading":"Building"));
 		showNotice("Estimated build time 3 weeks");
 		tbuild.push([type,Math.floor(Math.random()*4+19)]);
@@ -236,9 +243,9 @@ function upgradeBuilding(type){
 	if(type=='bl'&&wood>150*(blacksmithLVL+1)&&metal>150*(blacksmithLVL+1)&&gold>100*(blacksmithLVL+1)){
 		document.getElementById(type+'cost').onclick = "";
 		document.getElementById(type+'cost').innerHTML = "Upgrading...";
-		wood-=150*blacksmithLVL;
-		metal-=150*blacksmithLVL;
-		gold-=100*blacksmithLVL;
+		wood-=150*(blacksmithLVL+1);
+		metal-=150*(blacksmithLVL+1);
+		gold-=100*(blacksmithLVL+1);
 		showNotice("Black Smith "+(blacksmithLVL>0?"Upgrading":"Building"));
 		showNotice("Estimated build time 3 weeks");
 		tbuild.push([type,Math.floor(Math.random()*4+19)]);
@@ -402,6 +409,23 @@ function bTableClick(e){
 			showNotice("Not enough resources");
 		}
 	}
+	if(cell.cellIndex==7){//clicked sell
+		if(parseInt(cell.parentNode.children[8].innerText)>0){
+			var cost=parseInt(cell.innerText);
+			gold+=cost;
+			cell.parentNode.children[8].innerHTML=(parseInt(cell.parentNode.children[8].innerText)-1);
+			var rows = document.getElementById('armoryTable').children[0].children;
+			for (var j=1;j<rows.length;j++){
+				if(rows[j].children[0].innerHTML==cell.parentNode.children[1].innerText){
+					rows[j].children[1].innerHTML = parseInt(rows[j].children[1].innerHTML)-1;
+					rows[j].children[2].innerHTML = parseInt(rows[j].children[2].innerHTML)-1;
+				}
+			}
+		}else{
+			showNotice("None Left To Sell");
+		}
+		
+	}
 }
 function updateETA(table){
 	var ins = "<tr><th>Item</th><th>ETA</th><th>Cancel</th></tr>";
@@ -522,6 +546,26 @@ function getSol(name){
 		}
 	}
 		
+}
+function changeCamera(e){
+	if(currentCam=="Free"){
+		currentCam="IsoMetric";
+		camera.position = new BABYLON.Vector3(-12, 12, -12);
+		camera.rotation = new BABYLON.Vector3(0.73,0.8,0);
+	}else if(currentCam=="Top"){
+		currentCam="Free";
+		camera.position = new BABYLON.Vector3(-3,3,-6);
+		camera.rotation = new BABYLON.Vector3(0.1,0.6,0);
+	}else if(currentCam=="Chess"){
+		currentCam="Top";
+		camera.position = new BABYLON.Vector3(0,30,0);
+		camera.rotation = new BABYLON.Vector3(Math.PI/2,Math.PI/2,0);
+	}else if(currentCam=="IsoMetric"){
+		currentCam="Chess";
+		camera.position = new BABYLON.Vector3(-12, 18, 0);
+		camera.rotation = new BABYLON.Vector3(1, Math.PI/2, 0);
+	}
+	showNotice("Camera changed to "+currentCam);
 }
 
 function showNotice(text){

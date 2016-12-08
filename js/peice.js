@@ -22,6 +22,7 @@ function Peice (s) {
 	this.currentY=0;
 	//this.drawPeice(s,this);
 	this.baseTurns = 2;
+	this.aiRuns=0;
 	this.moveX = new BABYLON.Animation("movementAnimation", "position.x", 30, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
 	this.moveZ = new BABYLON.Animation("movementAnimation", "position.z", 30, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
 }
@@ -30,11 +31,12 @@ Peice.prototype.getInfo = function() {
     return this.team + ' ' + this.type + ' apple';
 };
 Peice.prototype.runAI = function() {
-    console.log("ai running:"+this.mesh.position.x+','+this.mesh.position.z);
+    //console.log("ai running:"+this.mesh.position.x+','+this.mesh.position.z);
 	var fear = this.calculateFear(this.mesh.position);
+	this.aiRuns++;
 	
 	if(fear[1]>fear[0]&&fear[1]/(fear[0]+0.01)<0.5){ //scared so run away
-		console.log(fear);
+		//console.log(fear);
 		Map.peiceToMove = this.mesh;
 		Map.highlightMany(this.mesh.position.x,this.mesh.position.z,this.mesh.turns);
 		
@@ -51,7 +53,7 @@ Peice.prototype.runAI = function() {
 				}
 			}
 			lowetTop.handleClick();
-			console.log("running away!");
+			//console.log("running away!");
 			Map.peiceToMove.peice.ContinueAI();
 		}, 300);
 		
@@ -76,13 +78,13 @@ Peice.prototype.runAI = function() {
 		}
 		if(canAttack.length>0){//able to attack so do so
 			var which= Math.floor(Math.random()*canAttack.length);
-			console.log("attacking!!!");
+			//console.log("attacking!!!");
 			canAttack[which].handleClick();
 			
 			Map.peiceToMove.peice.ContinueAI();
 			return;
 		}
-		console.log("moving to attack");
+		//console.log("moving to attack");
 		if(highestTop!="")highestTop.handleClick();
 		Map.peiceToMove.peice.ContinueAI();
 	},300);
@@ -90,7 +92,8 @@ Peice.prototype.runAI = function() {
 Peice.prototype.ContinueAI = function(){
 	for(var i=peices.length-1;i>-1;i--)
 		if(peices[i].mesh.team == currentTeam&& peices[i].mesh.turns>0){
-			console.log("nextAI:"+i);
+			//console.log("nextAI:"+i);
+			if(peices[i].aiRuns>4)continue;
 			peices[i].runAI();
 			return;
 		}
@@ -114,7 +117,7 @@ lineLength = function(x, y, x0, y0){
     return Math.sqrt((x -= x0) * x + (y -= y0) * y);
 };
 Peice.prototype.handleClick = function(e) {
-	console.log('clicked');
+	//console.log('clicked');
 	if(this.myTop!=null && this.myTop.material.name=='atth'){
 		this.myTop.handleClick(e);
 	}else{
@@ -127,13 +130,14 @@ Peice.prototype.resetTurns = function() {
 };
 Peice.prototype.killPeice = function() {
 	this.mesh.dispose();
-	this.weapon.dispose();
+	if(this.weapon!=null)this.weapon.dispose();
+	if(this.sheild!=null)this.sheild.dispose();
 };
 
 Peice.prototype.moveTo = function(x,y,after) {
 	this.currentX = x;
 	this.currentY=y;
-	console.log("moving from"+this.mesh.position.x+","+this.mesh.position.z+"to "+x+","+y);
+	//console.log("moving from"+this.mesh.position.x+","+this.mesh.position.z+"to "+x+","+y);
 	this.mesh.animations = [];
 	var keysX = []; 
 	keysX.push({frame: 0,value: this.mesh.position.x});
@@ -160,15 +164,15 @@ function angle(cx, cy, ex, ey) {
 }
 
 Peice.prototype.attackPeice = function(x,y,dmg,after) {
-	console.log("attacking!!!");
+	//console.log("attacking!!!");
 	showNotice(dmg);
 	this.mesh.rotation.y= angle(this.mesh.position.x,y,x,this.mesh.position.z)-Math.PI/2;
 	this.mesh.skeleton.beginAnimation("att",0,1,function(){
-		console.log("after  attacking!!!");
+		//console.log("after  attacking!!!");
 		if(typeof after != 'undefined'){after();}else this.target.peice.mesh.rotation.y = this.target.peice.initialRotation;
 	});
 	if(this.mesh.ranged){//if ranged then shoot an arrow at the unit!
-	console.log("ranged attack!!!");
+	//console.log("ranged attack!!!");
 		this.arrow = arrowModel.createInstance(this.mesh.name+"arrow");
 		this.arrow.position.x = this.mesh.position.x;
 		this.arrow.position.z = this.mesh.position.z;
