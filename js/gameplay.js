@@ -21,6 +21,7 @@
 	var swordModel;
 	var rockModel;
 	var sheildModel;
+	var heavyHModel;
 	
 	var skybox = BABYLON.Mesh.CreateBox("skyBox", 100.0, scene);
 	var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
@@ -54,9 +55,11 @@
 		arrowModel = newMeshes[0];
 		arrowModel.scaling = new BABYLON.Vector3(0.7,0.7,0.7);
 	});
-	BABYLON.SceneLoader.ImportMesh("arrow","models/", "arrow.babylon", scene, function (newMeshes, particleSystems, skeletons) {
-		arrowModel = newMeshes[0];
-		arrowModel.scaling = new BABYLON.Vector3(0.7,0.7,0.7);
+	BABYLON.SceneLoader.ImportMesh("Helm","models/", "hevyHeml.babylon", scene, function (newMeshes, particleSystems, skeletons) {
+		heavyHModel = newMeshes[0];
+		//heavyHModel.position.y=7;
+		heavyHModel.scaling = new BABYLON.Vector3(1,1,1.07);
+		heavyHModel.position = new BABYLON.Vector3(0.15,-0.75,0);
 	});
 	BABYLON.SceneLoader.ImportMesh("sword","models/", "sword.babylon", scene, function (newMeshes, particleSystems, skeletons) {
 		swordModel = newMeshes[0];
@@ -114,6 +117,9 @@
 			p.mesh.team = i<soliders&&i<(4+townHallLVL)?1:2;
 			p.mesh.turns = p.mesh.team==currentTeam?p.baseTurns:0;
 			var sp = Map.getStartPos(p.mesh.team);
+			p.mesh.position.x=parseFloat(Map.startPos[p.mesh.team-1].split(",")[0]);
+			p.mesh.position.z=parseFloat(Map.startPos[p.mesh.team-1].split(",")[1]);
+			
 			p.moveTo(sp[0],sp[1]);
 			p.mesh.rotation.y=p.mesh.team==1?Math.PI/2*3:Math.PI/2;
 			p.initialRotation = p.mesh.rotation.y;
@@ -192,15 +198,22 @@
 					p.mesh.material = heavyArmorMat;
 					p.mesh.armour=0.5;
 					p.baseTurns--;
+					p.helm = heavyHModel.createInstance("hhelm"+peices.length);
+					p.helm.attachToBone(p.mesh.skeleton.bones[7], p.mesh);
+					p.heml.position.y = 0.75;
 					playerfear+=6;
 				}
 			}
+			
 			if(i>=soliders){//fit out the enemy
 				var lvl = (playerfear/(ens+1))+Map.littleRandom()-1;
 				if(lvl>9){
 					p.mesh.material = heavyArmorMat;
 					p.mesh.armour=0.5;
 					p.baseTurns-=0.9;
+					p.helm = heavyHModel.createInstance("hhelm"+peices.length);
+					p.helm.attachToBone(p.mesh.skeleton.bones[7], p.mesh);
+					p.heml.position.y = 0.75;
 					lvl -=4;
 				}else if(lvl>7){
 					p.mesh.material = meduimArmorMat;

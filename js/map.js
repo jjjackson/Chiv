@@ -80,7 +80,6 @@ var Map = {
 						showNotice("Attack Missed!");
 					}
 				}
-				if(p.mesh.cc!=null)dmg = Math.random()>p.mesh.cc?(dmg*2):dmg;
 				if(p.sheild!=null){
 					if(p.sheild.name.charAt(0)=='s'){//small sheild
 						if(Math.random()>0.9){
