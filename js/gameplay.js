@@ -213,7 +213,7 @@
 					p.baseTurns-=0.9;
 					p.helm = heavyHModel.createInstance("hhelm"+peices.length);
 					p.helm.attachToBone(p.mesh.skeleton.bones[7], p.mesh);
-					p.heml.position.y = 0.75;
+					p.helm.position.y = 0.75;
 					lvl -=4;
 				}else if(lvl>7){
 					p.mesh.material = meduimArmorMat;

@@ -132,6 +132,7 @@ Peice.prototype.killPeice = function() {
 	this.mesh.dispose();
 	if(this.weapon!=null)this.weapon.dispose();
 	if(this.sheild!=null)this.sheild.dispose();
+	if(this.helm!=null)this.helm.dispose();
 };
 
 Peice.prototype.moveTo = function(x,y,after) {
