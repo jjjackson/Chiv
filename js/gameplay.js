@@ -200,7 +200,7 @@
 					p.baseTurns--;
 					p.helm = heavyHModel.createInstance("hhelm"+peices.length);
 					p.helm.attachToBone(p.mesh.skeleton.bones[7], p.mesh);
-					p.heml.position.y = 0.75;
+					p.helm.position.y = 0.75;
 					playerfear+=6;
 				}
 			}
